@@ -507,9 +507,6 @@ class tabla {
                 }
             }
         }
-        int da_col_poz(int kln, int rand, int coordonata) {
-            return col_poz[kln][rand][coordonata];
-        }
 
         selectie identifica_selectie(float clc_x, float clc_y) {
             //mesaj.setString(std::__cxx11::to_string(free_cell_k[0]));
@@ -628,7 +625,6 @@ class tabla {
             return sel;
         }
         selectie muta_cartea(float clc_x, float clc_y, char c, int kl, int rn, int qv, int qs) {
-            int clic_pe_carte = 1;
             //mesaj.setString(std::__cxx11::to_string(kl));
             sel.set_afiseaza(0);
             //verifica daca s-a facut clic pe free cell 0
