@@ -487,7 +487,7 @@ class tabla {
                 }
             }
             //coloane
-            int cl[8] = {7, 7, 7, 7, 6, 6, 6, 6};
+            const int cl[8] = {7, 7, 7, 7, 6, 6, 6, 6};
             for(int i=0; i<8; i++) {
                 col_k[i] = cl[i];
             }
@@ -974,13 +974,13 @@ int main()
     };
 
     //sf::String sCarti;
-    int nCol, nRnd;
-
+    
     //amesteca pachetul de carti
     srand(time(0));
     p.amesteca();
     //imparte cartile pe coloane
     for(int i = 0; i < 52; i++) {
+        int nCol, nRnd;
         nCol = i % 8;
         nRnd = i / 8;
         tb.coloana[nCol][nRnd] = p.da_cartea(i);
