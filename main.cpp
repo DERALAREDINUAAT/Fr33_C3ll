@@ -841,7 +841,7 @@ class tabla {
             //verifica daca s-a facut clic pe coloana
             for(int nkl=0; nkl<8; nkl++) {
                 if(clc_x >= col_poz[nkl][1][0] && clc_x <= col_poz[nkl][1][0] + 69.f * 2.f && clc_y >= col_poz[nkl][0][1] && clc_y <= col_poz[nkl][14][1] + 94.f * 1.9f) {
-                    mesaj.setString(std::__cxx11::to_string(col_k[nkl]));
+                    //mesaj.setString(std::__cxx11::to_string(col_k[nkl]));
                     if((c == 'f' || (c == 'c' && nkl != kl)) && (col_k[nkl] == 0 || (col_k[nkl] > 0 && col_k[nkl] < 15 && (coloana[nkl][col_k[nkl]-1].da_valoare() == qv + 1) && ((coloana[nkl][col_k[nkl]-1].da_simbol() % 2) != (qs % 2))))) {
                         //mutarea se face daca:
                         //   --selectia vine de pe un free cell ori de pe alta coloana
@@ -955,6 +955,7 @@ int main()
     valori juvete(10, 'J');
     valori dama(11, 'Q');
     valori popa(12, 'K');
+    /*
     //pozitia de citire din imaginea de baza pentru fiecare carte selectata
     int poz_carte_s[13][4][2] = {
         {{632,564}, {632,656}, {632,472}, {632,380} },
@@ -970,7 +971,7 @@ int main()
         {{1342,564},{1342,656},{1342,472},{1342,380}},
         {{1413,564},{1413,656},{1413,472},{1413,380}},
         {{1484,564},{1484,656},{1484,472},{1484,380}}
-    };
+    };*/
 
     //sf::String sCarti;
     
