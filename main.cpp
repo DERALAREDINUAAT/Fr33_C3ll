@@ -412,12 +412,10 @@ class pachet {
         }
         ~pachet(){}
         void amesteca() {
-            int al = 0;
-            int aux;
             for(int i=0; i<52; i++) {
                 int marja = 52 - i;
-                al = rand() % marja;
-                aux = ord[i / 4][i % 4];
+                int al = rand() % marja;
+                int aux = ord[i / 4][i % 4];
                 ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
                 ord[(al + i) / 4][(al + i) % 4] = aux;
             }
