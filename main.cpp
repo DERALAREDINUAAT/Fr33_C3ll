@@ -368,6 +368,9 @@ class valori {
             cod = k;
             simbol = s;
         }
+        void set_valoare(int v) {
+            cod = v;
+        }
 };
 
 class carte {
@@ -996,6 +999,7 @@ int main()
     char mod_lucru = 's';
 
     int dr = 0;
+    as.set_valoare(dr);
 
     while (window.isOpen())
     {
