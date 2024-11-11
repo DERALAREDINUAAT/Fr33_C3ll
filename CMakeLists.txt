@@ -95,8 +95,6 @@ endif()
 
 include(cmake/CopyHelper.cmake)
 copy_files(FILES tastatura.txt)
-copy_files(DIRECTORY mingw64)
-copy_files(DIRECTORY SFML-2.6.1)
 copy_files(DIRECTORY imagini)
 copy_files(DIRECTORY resources)
 # copy_files(FILES tastatura.txt config.json DIRECTORY images sounds)
