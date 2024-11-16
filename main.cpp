@@ -85,6 +85,17 @@ class selectie {
             y = q.y;
             afiseaza = q.afiseaza;
         }
+        ~selectie() {
+
+        }
+        void operator =(const selectie &q) {
+            categorie = q.categorie;
+            c = q.c;
+            r = q.r;
+            x = q.x;
+            y = q.y;
+            afiseaza = q.afiseaza;
+        }
         int da_afiseaza() {
             return afiseaza;
         }
