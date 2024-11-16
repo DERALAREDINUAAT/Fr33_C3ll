@@ -660,9 +660,6 @@ class qwk {
                 tb.coloana[nCol][nRnd] = p.da_cartea(i);
             }
         }
-        sf::Text fmesaj() {
-            return mesaj;
-        }
         void afiseaza_tabla(int mod) {
             //afiseaza fereastra cu imaginea de fundal
             window.clear();
