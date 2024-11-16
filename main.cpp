@@ -39,6 +39,13 @@ class carte {
             simbol = q.simbol;
             valoare = q.valoare;
         }
+        ~carte() {
+
+        }
+        void operator =(const carte &q) {
+            simbol = q.simbol;
+            valoare = q.valoare;
+        }
         int da_simbol() {
             return simbol;
         }
