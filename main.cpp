@@ -1,18 +1,9 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
-#include <windows.h>
 #include <SFML/Window/Mouse.hpp>
 
 #include <sstream>
-
-//*****************************/
-//***  Variabile globale    ***/
-//*****************************/
-
-//mesaje
-sf::Font fnt;
-sf::Text mesaj("Hello!", fnt, 15);
 
 //pozitia de citire din imaginea de baza pentru fiecare carte
 int poz_carte[13][4][2] = {
@@ -30,256 +21,31 @@ int poz_carte[13][4][2] = {
     {{1413,192},{1413,288},{1413,96},{1413,0}},
     {{1484,192},{1484,288},{1484,96},{1484,0}}
 };
-//creaza fereastra de lucru
-sf::RenderWindow window(sf::VideoMode(1300, 920), "Free Cell");
-//creaza textura cu imaginea de fundal
-sf::Texture tx_fundal;
-//creaza textura in care se incarca imaginea de fundal
-sf::Sprite sp_fundal(tx_fundal);
-//riga
-sf::Sprite sp_riga(tx_fundal);
-//riga2
-sf::Sprite sp_riga2(tx_fundal);
-//selectie
-sf::RectangleShape sp_sel;
-//carti
-sf::Sprite sp_afis[52];
-sf::Sprite sp_af[52];
-sf::Sprite sp_k01(tx_fundal);
-sf::Sprite sp_k02(tx_fundal);
-sf::Sprite sp_k03(tx_fundal);
-sf::Sprite sp_k04(tx_fundal);
-sf::Sprite sp_k05(tx_fundal);
-sf::Sprite sp_k06(tx_fundal);
-sf::Sprite sp_k07(tx_fundal);
-sf::Sprite sp_k08(tx_fundal);
-sf::Sprite sp_k09(tx_fundal);
-sf::Sprite sp_k10(tx_fundal);
-sf::Sprite sp_k11(tx_fundal);
-sf::Sprite sp_k12(tx_fundal);
-sf::Sprite sp_k13(tx_fundal);
-sf::Sprite sp_k14(tx_fundal);
-sf::Sprite sp_k15(tx_fundal);
-sf::Sprite sp_k16(tx_fundal);
-sf::Sprite sp_k17(tx_fundal);
-sf::Sprite sp_k18(tx_fundal);
-sf::Sprite sp_k19(tx_fundal);
-sf::Sprite sp_k20(tx_fundal);
-sf::Sprite sp_k21(tx_fundal);
-sf::Sprite sp_k22(tx_fundal);
-sf::Sprite sp_k23(tx_fundal);
-sf::Sprite sp_k24(tx_fundal);
-sf::Sprite sp_k25(tx_fundal);
-sf::Sprite sp_k26(tx_fundal);
-sf::Sprite sp_k27(tx_fundal);
-sf::Sprite sp_k28(tx_fundal);
-sf::Sprite sp_k29(tx_fundal);
-sf::Sprite sp_k30(tx_fundal);
-sf::Sprite sp_k31(tx_fundal);
-sf::Sprite sp_k32(tx_fundal);
-sf::Sprite sp_k33(tx_fundal);
-sf::Sprite sp_k34(tx_fundal);
-sf::Sprite sp_k35(tx_fundal);
-sf::Sprite sp_k36(tx_fundal);
-sf::Sprite sp_k37(tx_fundal);
-sf::Sprite sp_k38(tx_fundal);
-sf::Sprite sp_k39(tx_fundal);
-sf::Sprite sp_k40(tx_fundal);
-sf::Sprite sp_k41(tx_fundal);
-sf::Sprite sp_k42(tx_fundal);
-sf::Sprite sp_k43(tx_fundal);
-sf::Sprite sp_k44(tx_fundal);
-sf::Sprite sp_k45(tx_fundal);
-sf::Sprite sp_k46(tx_fundal);
-sf::Sprite sp_k47(tx_fundal);
-sf::Sprite sp_k48(tx_fundal);
-sf::Sprite sp_k49(tx_fundal);
-sf::Sprite sp_k50(tx_fundal);
-sf::Sprite sp_k51(tx_fundal);
-sf::Sprite sp_k52(tx_fundal);
 
-void initializare() {
-    fnt.loadFromFile("resources/arial.ttf");
-    mesaj.setFillColor(sf::Color::Yellow);
-    //incarca imaginea de fundal in textura
-    tx_fundal.loadFromFile("imagini/baza.png");
-    //selecteaza dreptunghiul cu imaginea de fundal in sprite-ul fundal
-    sp_fundal.setTextureRect(sf::IntRect(0, 0, 632, 453));
-    sp_fundal.setPosition(18.f,30.f);
-    sp_fundal.setScale(2.f,1.9f);
-    //riga1
-    sp_riga.setTextureRect(sf::IntRect(319, 453, 36, 36));
-    sp_riga.setPosition(18.f + 596.f,30.f + 74.f);
-    sp_riga.setScale(2.f,1.9f);
-    //riga2
-    sp_riga2.setTextureRect(sf::IntRect(355, 453, 36, 36));
-    sp_riga2.setPosition(18.f + 596.f,30.f + 74.f);
-    sp_riga2.setScale(2.f,1.9f);
-    //selectie
-    sp_sel.setSize(sf::Vector2f(71, 96));
-    sp_sel.setPosition(18.f + 0.f,30.f + 0.f);
-    sp_sel.setOutlineColor(sf::Color::Magenta);
-    sp_sel.setFillColor(sf::Color(255, 255, 255, 64));
-    sp_sel.setOutlineThickness(2);
-    sp_sel.setScale(2.f,1.9f);
-    //carti
-    sp_k01.setTextureRect(sf::IntRect(poz_carte[0][0][0], poz_carte[0][0][1], 71, 96));
-    sp_k01.setScale(2.f,1.9f);
-    sp_afis[0]=sp_k01;
-    sp_k02.setTextureRect(sf::IntRect(poz_carte[0][1][0], poz_carte[0][1][1], 71, 96));
-    sp_k02.setScale(2.f,1.9f);
-    sp_afis[1]=sp_k02;
-    sp_k03.setTextureRect(sf::IntRect(poz_carte[0][2][0], poz_carte[0][2][1], 71, 96));
-    sp_k03.setScale(2.f,1.9f);
-    sp_afis[2]=sp_k03;
-    sp_k04.setTextureRect(sf::IntRect(poz_carte[0][3][0], poz_carte[0][3][1], 71, 96));
-    sp_k04.setScale(2.f,1.9f);
-    sp_afis[3]=sp_k04;
-    sp_k05.setTextureRect(sf::IntRect(poz_carte[1][0][0], poz_carte[1][0][1], 71, 96));
-    sp_k05.setScale(2.f,1.9f);
-    sp_afis[4]=sp_k05;
-    sp_k06.setTextureRect(sf::IntRect(poz_carte[1][1][0], poz_carte[1][1][1], 71, 96));
-    sp_k06.setScale(2.f,1.9f);
-    sp_afis[5]=sp_k06;
-    sp_k07.setTextureRect(sf::IntRect(poz_carte[1][2][0], poz_carte[1][2][1], 71, 96));
-    sp_k07.setScale(2.f,1.9f);
-    sp_afis[6]=sp_k07;
-    sp_k08.setTextureRect(sf::IntRect(poz_carte[1][3][0], poz_carte[1][3][1], 71, 96));
-    sp_k08.setScale(2.f,1.9f);
-    sp_afis[7]=sp_k08;
-    sp_k09.setTextureRect(sf::IntRect(poz_carte[2][0][0], poz_carte[2][0][1], 71, 96));
-    sp_k09.setScale(2.f,1.9f);
-    sp_afis[8]=sp_k09;
-    sp_k10.setTextureRect(sf::IntRect(poz_carte[2][1][0], poz_carte[2][1][1], 71, 96));
-    sp_k10.setScale(2.f,1.9f);
-    sp_afis[9]=sp_k10;
-    sp_k11.setTextureRect(sf::IntRect(poz_carte[2][2][0], poz_carte[2][2][1], 71, 96));
-    sp_k11.setScale(2.f,1.9f);
-    sp_afis[10]=sp_k11;
-    sp_k12.setTextureRect(sf::IntRect(poz_carte[2][3][0], poz_carte[2][3][1], 71, 96));
-    sp_k12.setScale(2.f,1.9f);
-    sp_afis[11]=sp_k12;
-    sp_k13.setTextureRect(sf::IntRect(poz_carte[3][0][0], poz_carte[3][0][1], 71, 96));
-    sp_k13.setScale(2.f,1.9f);
-    sp_afis[12]=sp_k13;
-    sp_k14.setTextureRect(sf::IntRect(poz_carte[3][1][0], poz_carte[3][1][1], 71, 96));
-    sp_k14.setScale(2.f,1.9f);
-    sp_afis[13]=sp_k14;
-    sp_k15.setTextureRect(sf::IntRect(poz_carte[3][2][0], poz_carte[3][2][1], 71, 96));
-    sp_k15.setScale(2.f,1.9f);
-    sp_afis[14]=sp_k15;
-    sp_k16.setTextureRect(sf::IntRect(poz_carte[3][3][0], poz_carte[3][3][1], 71, 96));
-    sp_k16.setScale(2.f,1.9f);
-    sp_afis[15]=sp_k16;
-    sp_k17.setTextureRect(sf::IntRect(poz_carte[4][0][0], poz_carte[4][0][1], 71, 96));
-    sp_k17.setScale(2.f,1.9f);
-    sp_afis[16]=sp_k17;
-    sp_k18.setTextureRect(sf::IntRect(poz_carte[4][1][0], poz_carte[4][1][1], 71, 96));
-    sp_k18.setScale(2.f,1.9f);
-    sp_afis[17]=sp_k18;
-    sp_k19.setTextureRect(sf::IntRect(poz_carte[4][2][0], poz_carte[4][2][1], 71, 96));
-    sp_k19.setScale(2.f,1.9f);
-    sp_afis[18]=sp_k19;
-    sp_k20.setTextureRect(sf::IntRect(poz_carte[4][3][0], poz_carte[4][3][1], 71, 96));
-    sp_k20.setScale(2.f,1.9f);
-    sp_afis[19]=sp_k20;
-    sp_k21.setTextureRect(sf::IntRect(poz_carte[5][0][0], poz_carte[5][0][1], 71, 96));
-    sp_k21.setScale(2.f,1.9f);
-    sp_afis[20]=sp_k21;
-    sp_k22.setTextureRect(sf::IntRect(poz_carte[5][1][0], poz_carte[5][1][1], 71, 96));
-    sp_k22.setScale(2.f,1.9f);
-    sp_afis[21]=sp_k22;
-    sp_k23.setTextureRect(sf::IntRect(poz_carte[5][2][0], poz_carte[5][2][1], 71, 96));
-    sp_k23.setScale(2.f,1.9f);
-    sp_afis[22]=sp_k23;
-    sp_k24.setTextureRect(sf::IntRect(poz_carte[5][3][0], poz_carte[5][3][1], 71, 96));
-    sp_k24.setScale(2.f,1.9f);
-    sp_afis[23]=sp_k24;
-    sp_k25.setTextureRect(sf::IntRect(poz_carte[6][0][0], poz_carte[6][0][1], 71, 96));
-    sp_k25.setScale(2.f,1.9f);
-    sp_afis[24]=sp_k25;
-    sp_k26.setTextureRect(sf::IntRect(poz_carte[6][1][0], poz_carte[6][1][1], 71, 96));
-    sp_k26.setScale(2.f,1.9f);
-    sp_afis[25]=sp_k26;
-    sp_k27.setTextureRect(sf::IntRect(poz_carte[6][2][0], poz_carte[6][2][1], 71, 96));
-    sp_k27.setScale(2.f,1.9f);
-    sp_afis[26]=sp_k27;
-    sp_k28.setTextureRect(sf::IntRect(poz_carte[6][3][0], poz_carte[6][3][1], 71, 96));
-    sp_k28.setScale(2.f,1.9f);
-    sp_afis[27]=sp_k28;
-    sp_k29.setTextureRect(sf::IntRect(poz_carte[7][0][0], poz_carte[7][0][1], 71, 96));
-    sp_k29.setScale(2.f,1.9f);
-    sp_afis[28]=sp_k29;
-    sp_k30.setTextureRect(sf::IntRect(poz_carte[7][1][0], poz_carte[7][1][1], 71, 96));
-    sp_k30.setScale(2.f,1.9f);
-    sp_afis[29]=sp_k30;
-    sp_k31.setTextureRect(sf::IntRect(poz_carte[7][2][0], poz_carte[7][2][1], 71, 96));
-    sp_k31.setScale(2.f,1.9f);
-    sp_afis[30]=sp_k31;
-    sp_k32.setTextureRect(sf::IntRect(poz_carte[7][3][0], poz_carte[7][3][1], 71, 96));
-    sp_k32.setScale(2.f,1.9f);
-    sp_afis[31]=sp_k32;
-    sp_k33.setTextureRect(sf::IntRect(poz_carte[8][0][0], poz_carte[8][0][1], 71, 96));
-    sp_k33.setScale(2.f,1.9f);
-    sp_afis[32]=sp_k33;
-    sp_k34.setTextureRect(sf::IntRect(poz_carte[8][1][0], poz_carte[8][1][1], 71, 96));
-    sp_k34.setScale(2.f,1.9f);
-    sp_afis[33]=sp_k34;
-    sp_k35.setTextureRect(sf::IntRect(poz_carte[8][2][0], poz_carte[8][2][1], 71, 96));
-    sp_k35.setScale(2.f,1.9f);
-    sp_afis[34]=sp_k35;
-    sp_k36.setTextureRect(sf::IntRect(poz_carte[8][3][0], poz_carte[8][3][1], 71, 96));
-    sp_k36.setScale(2.f,1.9f);
-    sp_afis[35]=sp_k36;
-    sp_k37.setTextureRect(sf::IntRect(poz_carte[9][0][0], poz_carte[9][0][1], 71, 96));
-    sp_k37.setScale(2.f,1.9f);
-    sp_afis[36]=sp_k37;
-    sp_k38.setTextureRect(sf::IntRect(poz_carte[9][1][0], poz_carte[9][1][1], 71, 96));
-    sp_k38.setScale(2.f,1.9f);
-    sp_afis[37]=sp_k38;
-    sp_k39.setTextureRect(sf::IntRect(poz_carte[9][2][0], poz_carte[9][2][1], 71, 96));
-    sp_k39.setScale(2.f,1.9f);
-    sp_afis[38]=sp_k39;
-    sp_k40.setTextureRect(sf::IntRect(poz_carte[9][3][0], poz_carte[9][3][1], 71, 96));
-    sp_k40.setScale(2.f,1.9f);
-    sp_afis[39]=sp_k40;
-    sp_k41.setTextureRect(sf::IntRect(poz_carte[10][0][0], poz_carte[10][0][1], 71, 96));
-    sp_k41.setScale(2.f,1.9f);
-    sp_afis[40]=sp_k41;
-    sp_k42.setTextureRect(sf::IntRect(poz_carte[10][1][0], poz_carte[10][1][1], 71, 96));
-    sp_k42.setScale(2.f,1.9f);
-    sp_afis[41]=sp_k42;
-    sp_k43.setTextureRect(sf::IntRect(poz_carte[10][2][0], poz_carte[10][2][1], 71, 96));
-    sp_k43.setScale(2.f,1.9f);
-    sp_afis[42]=sp_k43;
-    sp_k44.setTextureRect(sf::IntRect(poz_carte[10][3][0], poz_carte[10][3][1], 71, 96));
-    sp_k44.setScale(2.f,1.9f);
-    sp_afis[43]=sp_k44;
-    sp_k45.setTextureRect(sf::IntRect(poz_carte[11][0][0], poz_carte[11][0][1], 71, 96));
-    sp_k45.setScale(2.f,1.9f);
-    sp_afis[44]=sp_k45;
-    sp_k46.setTextureRect(sf::IntRect(poz_carte[11][1][0], poz_carte[11][1][1], 71, 96));
-    sp_k46.setScale(2.f,1.9f);
-    sp_afis[45]=sp_k46;
-    sp_k47.setTextureRect(sf::IntRect(poz_carte[11][2][0], poz_carte[11][2][1], 71, 96));
-    sp_k47.setScale(2.f,1.9f);
-    sp_afis[46]=sp_k47;
-    sp_k48.setTextureRect(sf::IntRect(poz_carte[11][3][0], poz_carte[11][3][1], 71, 96));
-    sp_k48.setScale(2.f,1.9f);
-    sp_afis[47]=sp_k48;
-    sp_k49.setTextureRect(sf::IntRect(poz_carte[12][0][0], poz_carte[12][0][1], 71, 96));
-    sp_k49.setScale(2.f,1.9f);
-    sp_afis[48]=sp_k49;
-    sp_k50.setTextureRect(sf::IntRect(poz_carte[12][1][0], poz_carte[12][1][1], 71, 96));
-    sp_k50.setScale(2.f,1.9f);
-    sp_afis[49]=sp_k50;
-    sp_k51.setTextureRect(sf::IntRect(poz_carte[12][2][0], poz_carte[12][2][1], 71, 96));
-    sp_k51.setScale(2.f,1.9f);
-    sp_afis[50]=sp_k51;
-    sp_k52.setTextureRect(sf::IntRect(poz_carte[12][3][0], poz_carte[12][3][1], 71, 96));
-    sp_k52.setScale(2.f,1.9f);
-    sp_afis[51]=sp_k52;
-}
+class carte {
+    private:
+        int simbol;
+        int valoare;
+    public:
+        carte() {
+            simbol = 0;
+            valoare = 0;
+        }
+        carte(int s, int v) {
+            simbol = s;
+            valoare = v;
+        }
+        carte(const carte &q) {
+            simbol = q.simbol;
+            valoare = q.valoare;
+        }
+        int da_simbol() {
+            return simbol;
+        }
+        int da_valoare() {
+            return valoare;
+        }
+};
 
 class selectie {
     private:
@@ -345,101 +111,6 @@ class selectie {
 };
 
 selectie sel;
-
-class simboluri {
-    private:
-        int cod;
-        char simbol;
-        char culoare;
-    public:
-        simboluri(int k, char s, char c) {
-            cod = k;
-            simbol = s;
-            culoare = c;
-        }
-};
-
-class valori {
-    private:
-        int cod;
-        char simbol;
-    public:
-        valori(int k, char s) {
-            cod = k;
-            simbol = s;
-        }
-        void set_valoare(int v) {
-            cod = v;
-        }
-};
-
-class carte {
-    private:
-        int simbol, valoare;
-    public:
-        carte() {
-            simbol = 0;
-            valoare = 0;
-        }
-        carte(int s, int v) {
-            simbol = s;
-            valoare = v;
-        }
-        carte(const carte &q) {
-            simbol = q.simbol;
-            valoare = q.valoare;
-        }
-        int da_simbol() {
-            return simbol;
-        }
-        int da_valoare() {
-            return valoare;
-        }
-};
-
-class pachet {
-    private:
-        int ord_i[13][4], ord[13][4];
-        carte k[4][13];
-    public:
-        pachet() {
-            int o = 0;
-            for(int i=0; i<13; i++) {
-                for(int j=0; j<4; j++) {
-                    ord_i[i][j] = o;
-                    ord[i][j] = o;
-                    k[j][i] = carte(j,i);
-                    o++;
-                }
-            }
-        }
-        ~pachet(){}
-        void amesteca() {
-            for(int i=0; i<52; i++) {
-                int marja = 52 - i;
-                int al = rand() % marja;
-                int aux = ord[i / 4][i % 4];
-                ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                ord[(al + i) / 4][(al + i) % 4] = aux;
-            }
-        }
-        carte da_cartea(int o) {
-            //stabileste in ord care este cartea
-            int v = o / 4;
-            int s = o % 4;
-            //citeste valoare de acolo
-            int c = ord[v][s];
-            //apoi determina ce carte reprezinta acea valoare
-            v = c / 4;
-            s = c % 4;
-            //si o intoarce ca rezultat
-            carte g = k[s][v];
-            return g;
-        }
-};
-
-//creaza pachetul de carti
-pachet p;
 
 class tabla {
     private:
@@ -870,129 +541,220 @@ class tabla {
         }
 };
 
-//initializeaza tabla de joc
-tabla tb;
+class pachet {
+    private:
+        int ord_i[13][4], ord[13][4];
+        carte k[4][13];
+    public:
+        pachet() {
+            int o = 0;
+            for(int i=0; i<13; i++) {
+                for(int j=0; j<4; j++) {
+                    ord_i[i][j] = o;
+                    ord[i][j] = o;
+                    k[j][i] = carte(j,i);
+                    o++;
+                }
+            }
+        }
+        ~pachet(){}
+        void amesteca() {
+            for(int i=0; i<52; i++) {
+                int marja = 52 - i;
+                int al = rand() % marja;
+                int aux = ord[i / 4][i % 4];
+                ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                ord[(al + i) / 4][(al + i) % 4] = aux;
+            }
+        }
+        carte da_cartea(int o) {
+            //stabileste in ord care este cartea
+            int v = o / 4;
+            int s = o % 4;
+            //citeste valoare de acolo
+            int c = ord[v][s];
+            //apoi determina ce carte reprezinta acea valoare
+            v = c / 4;
+            s = c % 4;
+            //si o intoarce ca rezultat
+            carte g = k[s][v];
+            return g;
+        }
+};
 
-void afiseaza_tabla(int mod) {
-    //afiseaza fereastra cu imaginea de fundal
-    window.clear();
-    window.draw(sp_fundal);
-    //afiseaza riga
-    if(mod==0) {
-        window.draw(sp_riga);
-    }
-    if(mod==1) {
-        window.draw(sp_riga2);
-    }
-    //afiseaza free cell
-    for(int x=0; x<4; x++) {
-        //daca exista carte
-        if(tb.free_cell_k[x] == 1) {
-            carte ktmp = tb.free_cell[x];
-            int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
-            sp_afis[kord].setPosition(tb.free_cell_poz[x][0], tb.free_cell_poz[x][1]);
-            window.draw(sp_afis[kord]);
+class qwk {
+    private:
+        sf::Font fnt;
+        sf::Text mesaj;
+        sf::RenderWindow window;//fereastra de lucru
+        sf::Texture tx_fundal;//textura cu imaginea de fundal
+        sf::Sprite sp_fundal;//spriteul in care se incarca imaginea de fundal
+        sf::Sprite sp_riga1;
+        sf::Sprite sp_riga2;
+        sf::RectangleShape sp_sel;//selectie
+        tabla tb;
+        pachet p;
+        sf::Sprite sp_afis[52];
+    public:
+        qwk() {
+            fnt.loadFromFile("resources/arial.ttf");
+            mesaj.setString("Hello!");
+            mesaj.setFont(fnt);
+            mesaj.setCharacterSize(15);
+            mesaj.setFillColor(sf::Color::Yellow);
+            window.create(sf::VideoMode(1300, 920), "Free Cell");
+            //incarca imaginea de fundal in textura
+            tx_fundal.loadFromFile("resources/baza.png");
+            //selecteaza dreptunghiul cu imaginea de fundal in sprite-ul fundal
+            sp_fundal.setTexture(tx_fundal);
+            sp_fundal.setTextureRect(sf::IntRect(0, 0, 632, 453));
+            sp_fundal.setPosition(18.f,30.f);
+            sp_fundal.setScale(2.f,1.9f);
+            //riga1
+            sp_riga1.setTexture(tx_fundal);
+            sp_riga1.setTextureRect(sf::IntRect(319, 453, 36, 36));
+            sp_riga1.setPosition(18.f + 596.f,30.f + 74.f);
+            sp_riga1.setScale(2.f,1.9f);
+            //riga2
+            sp_riga2.setTexture(tx_fundal);
+            sp_riga2.setTextureRect(sf::IntRect(355, 453, 36, 36));
+            sp_riga2.setPosition(18.f + 596.f,30.f + 74.f);
+            sp_riga2.setScale(2.f,1.9f);
+            //selectie
+            sp_sel.setSize(sf::Vector2f(71, 96));
+            sp_sel.setPosition(18.f + 0.f,30.f + 0.f);
+            sp_sel.setOutlineColor(sf::Color::Magenta);
+            sp_sel.setFillColor(sf::Color(255, 255, 255, 64));
+            sp_sel.setOutlineThickness(2);
+            sp_sel.setScale(2.f,1.9f);
+            //definire carti
+            for(int y = 0; y < 52; y++) {
+                sp_afis[y].setTexture(tx_fundal);
+                sp_afis[y].setTextureRect(sf::IntRect(poz_carte[y / 4][y % 4][0], poz_carte[y / 4][y % 4][1], 71, 96));
+                sp_afis[y].setScale(2.f,1.9f);
+            }
+            p.amesteca();
+            //imparte cartile pe coloane
+            for(int i = 0; i < 52; i++) {
+                int nCol, nRnd;
+                nCol = i % 8;
+                nRnd = i / 8;
+                tb.coloana[nCol][nRnd] = p.da_cartea(i);
+            }
         }
-    }
-    //afiseaza baza
-    for(int x=0; x<4; x++) {
-        //daca exista carte
-        if(tb.baza_k[x] == 1) {
-            carte ktmp = tb.baza[x];
-            int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
-            sp_afis[kord].setPosition(tb.baza_poz[x][0], tb.baza_poz[x][1]);
-            window.draw(sp_afis[kord]);
+        sf::Text fmesaj() {
+            return mesaj;
         }
-    }
-    //afiseaza coloanele
-    //for(int i=0; i<52; i++) {
-    //    window.draw(sp_af[i]);
-    //}
-    for(int x=0; x<8; x++) {
-        for(int y=0; y<tb.col_k[x]; y++) {
-            //citeste valoarea cartii si ii stabileste ordinea in pachetul de carti
-            carte ktmp = tb.coloana[x][y];
-            int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
-            sp_afis[kord].setPosition(tb.col_poz[x][y][0], tb.col_poz[x][y][1]);
-            window.draw(sp_afis[kord]);
+        void afiseaza_tabla(int mod) {
+            //afiseaza fereastra cu imaginea de fundal
+            window.clear();
+            window.draw(sp_fundal);
+            //afiseaza riga
+            if(mod==0) {
+                window.draw(sp_riga1);
+            }
+            if(mod==1) {
+                window.draw(sp_riga2);
+            }
+            //afiseaza free cell
+            for(int x=0; x<4; x++) {
+                //daca exista carte
+                if(tb.free_cell_k[x] == 1) {
+                    carte ktmp = tb.free_cell[x];
+                    int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
+                    sp_afis[kord].setPosition(tb.free_cell_poz[x][0], tb.free_cell_poz[x][1]);
+                    window.draw(sp_afis[kord]);
+                }
+            }
+            //afiseaza baza
+            for(int x=0; x<4; x++) {
+                //daca exista carte
+                if(tb.baza_k[x] == 1) {
+                    carte ktmp = tb.baza[x];
+                    int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
+                    sp_afis[kord].setPosition(tb.baza_poz[x][0], tb.baza_poz[x][1]);
+                    window.draw(sp_afis[kord]);
+                }
+            }
+            for(int x=0; x<8; x++) {
+                for(int y=0; y<tb.col_k[x]; y++) {
+                    //citeste valoarea cartii si ii stabileste ordinea in pachetul de carti
+                    carte ktmp = tb.coloana[x][y];
+                    int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
+                    sp_afis[kord].setPosition(tb.col_poz[x][y][0], tb.col_poz[x][y][1]);
+                    window.draw(sp_afis[kord]);
+                }
+            }
+            //afiseaza selectia
+            if(sel.da_afiseaza() == 1) {
+                sp_sel.setPosition(float(sel.da_x()), float(sel.da_y()));
+                window.draw(sp_sel);
+            }
+            window.draw(mesaj);
+            window.display();
         }
-    }
-    //afiseaza selectia
-    if(sel.da_afiseaza() == 1) {
-        sp_sel.setPosition(float(sel.da_x()), float(sel.da_y()));
-        window.draw(sp_sel);
-    }
-    //mesaj de verificare carti
-    /*
-    int kq;
-    carte w;
-    w = p.da_cartea(51);
-    kq = w.da_valoare() * 4 + w.da_simbol();
-    mesaj.setString(std::__cxx11::to_string(kq));
-    */
-    window.draw(mesaj);
-    window.display();
-}
+
+        void joaca(char p_mod_lucru, int p_dr) {
+            while (window.isOpen()) {
+                sf::Event event;
+                while (window.pollEvent(event))
+                {
+                    if (event.type == sf::Event::Closed) {
+                        window.close();
+                        return;
+                    }
+                }
+
+                if (sf::Mouse::getPosition(window).x > 632) {
+                    p_dr = 1;
+                    afiseaza_tabla(p_dr);
+                }
+                else {
+                    p_dr = 0;
+                    afiseaza_tabla(p_dr);
+                }
+
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                {   //clic dreapta
+                    //citeste pozitia mausului
+                    //identifica cartea selectata
+                    switch(p_mod_lucru) {
+                        case 's':
+                            //mesaj.setString("Mod selectare");
+                            sel = tb.identifica_selectie(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                            afiseaza_tabla(p_dr);
+                            if(sel.da_afiseaza() == 1) p_mod_lucru = 'm';
+                            while(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                                //asteapta eliberarea mausului
+                            }
+                        break;
+                        case 'm':
+                            //mesaj.setString("Mod mutare");
+                            //identifica cartea selectata
+                            carte k_sel;
+                            if(sel.da_categoria() == 'c') k_sel = tb.coloana[sel.da_coloana()][sel.da_rand()];
+                            if(sel.da_categoria() == 'f') k_sel = tb.free_cell[sel.da_coloana()];
+                            //identifica pozitia in care muta cartea selectata
+                            sel = tb.muta_cartea(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, sel.da_categoria(), sel.da_coloana(), sel.da_rand(), k_sel.da_valoare(), k_sel.da_simbol());
+                            afiseaza_tabla(p_dr);
+                            if(sel.da_afiseaza() == 0) p_mod_lucru = 's';
+                            while(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                                //asteapta eliberarea mausului
+                            }
+                        break;
+                    }
+                }
+            }
+        }
+};
 
 int main()
 {
-    //simboluri pentru carti
-    simboluri inima(0, 'i', 'r');
-    simboluri frunza(1, 'f', 'n');
-    simboluri romb(2, 'r', 'r');
-    simboluri trefla(3, 't', 'n');
-    //valori pentru carti
-    valori as(0, 'A');
-    valori doi(1, '2');
-    valori trei(2, '3');
-    valori patru(3, '4');
-    valori cinci(4, '5');
-    valori sase(5, '6');
-    valori sapte(6, '7');
-    valori opt(7, '8');
-    valori noua(8, '9');
-    valori zece(9, '1');
-    valori juvete(10, 'J');
-    valori dama(11, 'Q');
-    valori popa(12, 'K');
-    /*
-    //pozitia de citire din imaginea de baza pentru fiecare carte selectata
-    int poz_carte_s[13][4][2] = {
-        {{632,564}, {632,656}, {632,472}, {632,380} },
-        {{703,564}, {703,656}, {703,472}, {703,380} },
-        {{774,564}, {774,656}, {774,472}, {774,380} },
-        {{845,564}, {845,656}, {845,472}, {845,380} },
-        {{916,564}, {916,656}, {916,472}, {916,380} },
-        {{987,564}, {987,656}, {987,472}, {987,380} },
-        {{1058,564},{1058,656},{1058,472},{1058,380}},
-        {{1129,564},{1129,656},{1129,472},{1129,380}},
-        {{1200,564},{1200,656},{1200,472},{1200,380}},
-        {{1271,564},{1271,656},{1271,472},{1271,380}},
-        {{1342,564},{1342,656},{1342,472},{1342,380}},
-        {{1413,564},{1413,656},{1413,472},{1413,380}},
-        {{1484,564},{1484,656},{1484,472},{1484,380}}
-    };*/
-
-    //sf::String sCarti;
-    
+    qwk qw;
     //amesteca pachetul de carti
     srand(time(0));
-    p.amesteca();
-    //imparte cartile pe coloane
-    for(int i = 0; i < 52; i++) {
-        int nCol, nRnd;
-        nCol = i % 8;
-        nRnd = i / 8;
-        tb.coloana[nCol][nRnd] = p.da_cartea(i);
-        //sCarti.insert(0,std::__cxx11::to_string(p.da_cartea(i).da_simbol()));
-        //sCarti.insert(0,std::__cxx11::to_string(p.da_cartea(i).da_valoare()));
-        //sCarti.insert(0,' ');
-    }
-    //mesaj.setString(sCarti);
 
-    initializare();
-
-    afiseaza_tabla(0);
+    qw.afiseaza_tabla(0);
 
     //modul de lucru se defineste prin valorile
     // 's' - selecteaza cartea pe care se face clic
@@ -1000,68 +762,7 @@ int main()
     char mod_lucru = 's';
 
     int dr = 0;
-    as.set_valoare(dr);
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        if (sf::Mouse::getPosition(window).x > 632) {
-            dr = 1;
-            afiseaza_tabla(dr);
-        }
-        else {
-            dr = 0;
-            afiseaza_tabla(dr);
-        }
-
-        /*
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            // left click...
-            //sf::Mouse::setPosition(sf::Vector2i(100, 200), window);
-
-        }
-        */
-
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {   //clic dreapta
-            //citeste pozitia mausului
-            //identifica cartea selectata
-            switch(mod_lucru) {
-                case 's':
-                    //mesaj.setString("Mod selectare");
-                    sel = tb.identifica_selectie(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-                    afiseaza_tabla(dr);
-                    if(sel.da_afiseaza() == 1) mod_lucru = 'm';
-                    while(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        //asteapta eliberarea mausului
-                    }
-                break;
-                case 'm':
-                    //mesaj.setString("Mod mutare");
-                    //identifica cartea selectata
-                    carte k_sel;
-                    if(sel.da_categoria() == 'c') k_sel = tb.coloana[sel.da_coloana()][sel.da_rand()];
-                    if(sel.da_categoria() == 'f') k_sel = tb.free_cell[sel.da_coloana()];
-                    //identifica pozitia in care muta cartea selectata
-                    sel = tb.muta_cartea(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, sel.da_categoria(), sel.da_coloana(), sel.da_rand(), k_sel.da_valoare(), k_sel.da_simbol());
-                    afiseaza_tabla(dr);
-                    if(sel.da_afiseaza() == 0) mod_lucru = 's';
-                    while(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        //asteapta eliberarea mausului
-                    }
-                break;
-            }
-        }
-
-
-    }
-
+    qw.joaca(mod_lucru, dr);
     return 0;
 }
