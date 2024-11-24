@@ -203,113 +203,27 @@ class tabla {
             return col_k[i];
         }
         selectie identifica_selectie(float clc_x, float clc_y, selectie sell) {
-            //verifica daca s-a facut clic pe free cell 0
+            //verifica daca s-a facut clic pe free cell de la 0 la 3
             int k_selectata = 0;
-            if(free_cell_k[0] > 0) {
-                if(clc_x >= free_cell_poz[0][0] && clc_x <= free_cell_poz[0][0] + 69.f * 2.f && clc_y >= free_cell_poz[0][1] && clc_y <= free_cell_poz[0][1] + 94.f * 1.9f) {
-                    sell.set_categorie('f', 0, 0);
-                    sell.set_pozitie(free_cell_poz[0][0], free_cell_poz[0][1]);
+            for(int fc=0; fc<4; fc++) {
+                if(free_cell_k[fc] > 0 && clc_x >= free_cell_poz[fc][0] && clc_x <= free_cell_poz[fc][0] + 69.f * 2.f && clc_y >= free_cell_poz[fc][1] && clc_y <= free_cell_poz[fc][1] + 94.f * 1.9f) {
+                    sell.set_categorie('f', fc, 0);
+                    sell.set_pozitie(free_cell_poz[fc][0], free_cell_poz[fc][1]);
                     sell.set_afiseaza(1);
                     k_selectata = 1;
+                    break;
                 }
             }
-            //verifica daca s-a facut clic pe free cell 1
-            if(free_cell_k[1] > 0) {
-                if(clc_x >= free_cell_poz[1][0] && clc_x <= free_cell_poz[1][0] + 69.f * 2.f && clc_y >= free_cell_poz[1][1] && clc_y <= free_cell_poz[1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('f', 1, 0);
-                    sell.set_pozitie(free_cell_poz[1][0], free_cell_poz[1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe free cell 2
-            if(free_cell_k[2] > 0) {
-                if(clc_x >= free_cell_poz[2][0] && clc_x <= free_cell_poz[2][0] + 69.f * 2.f && clc_y >= free_cell_poz[2][1] && clc_y <= free_cell_poz[2][1] + 94.f * 1.9f) {
-                    sell.set_categorie('f', 2, 0);
-                    sell.set_pozitie(free_cell_poz[2][0], free_cell_poz[2][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe free cell 3
-            if(free_cell_k[3] > 0) {
-                if(clc_x >= free_cell_poz[3][0] && clc_x <= free_cell_poz[3][0] + 69.f * 2.f && clc_y >= free_cell_poz[3][1] && clc_y <= free_cell_poz[3][1] + 94.f * 1.9f) {
-                    sell.set_categorie('f', 3, 0);
-                    sell.set_pozitie(free_cell_poz[3][0], free_cell_poz[3][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 0
-            if(col_k[0] > 0) {
-                if(clc_x >= col_poz[0][col_k[0] - 1][0] && clc_x <= col_poz[0][col_k[0] - 1][0] + 69.f * 2.f && clc_y >= col_poz[0][col_k[0] - 1][1] && clc_y <= col_poz[0][col_k[0] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 0, col_k[0] - 1);
-                    sell.set_pozitie(col_poz[0][col_k[0] - 1][0], col_poz[0][col_k[0] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 1
-            if(col_k[1] > 0) {
-                if(clc_x >= col_poz[1][col_k[1] - 1][0] && clc_x <= col_poz[1][col_k[1] - 1][0] + 69.f * 2.f && clc_y >= col_poz[1][col_k[1] - 1][1] && clc_y <= col_poz[1][col_k[1] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 1, col_k[1] - 1);
-                    sell.set_pozitie(col_poz[1][col_k[1] - 1][0], col_poz[1][col_k[1] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 2
-            if(col_k[2] > 0) {
-                if(clc_x >= col_poz[2][col_k[2] - 1][0] && clc_x <= col_poz[2][col_k[2] - 1][0] + 69.f * 2.f && clc_y >= col_poz[2][col_k[2] - 1][1] && clc_y <= col_poz[2][col_k[2] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 2, col_k[2] - 1);
-                    sell.set_pozitie(col_poz[2][col_k[2] - 1][0], col_poz[2][col_k[2] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 3
-            if(col_k[3] > 0) {
-                if(clc_x >= col_poz[3][col_k[3] - 1][0] && clc_x <= col_poz[3][col_k[3] - 1][0] + 69.f * 2.f && clc_y >= col_poz[3][col_k[3] - 1][1] && clc_y <= col_poz[3][col_k[3] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 3, col_k[3] - 1);
-                    sell.set_pozitie(col_poz[3][col_k[3] - 1][0], col_poz[3][col_k[3] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 4
-            if(col_k[4] > 0) {
-                if(clc_x >= col_poz[4][col_k[4] - 1][0] && clc_x <= col_poz[4][col_k[4] - 1][0] + 69.f * 2.f && clc_y >= col_poz[4][col_k[4] - 1][1] && clc_y <= col_poz[4][col_k[4] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 4, col_k[4] - 1);
-                    sell.set_pozitie(col_poz[4][col_k[4] - 1][0], col_poz[4][col_k[4] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 5
-            if(col_k[5] > 0) {
-                if(clc_x >= col_poz[5][col_k[5] - 1][0] && clc_x <= col_poz[5][col_k[5] - 1][0] + 69.f * 2.f && clc_y >= col_poz[5][col_k[5] - 1][1] && clc_y <= col_poz[5][col_k[5] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 5, col_k[5] - 1);
-                    sell.set_pozitie(col_poz[5][col_k[5] - 1][0], col_poz[5][col_k[5] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 6
-            if(col_k[6] > 0) {
-                if(clc_x >= col_poz[6][col_k[6] - 1][0] && clc_x <= col_poz[6][col_k[6] - 1][0] + 69.f * 2.f && clc_y >= col_poz[6][col_k[6] - 1][1] && clc_y <= col_poz[6][col_k[6] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 6, col_k[6] - 1);
-                    sell.set_pozitie(col_poz[6][col_k[6] - 1][0], col_poz[6][col_k[6] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
-                }
-            }
-            //verifica daca s-a facut clic pe cartea din coloana 7
-            if(col_k[7] > 0) {
-                if(clc_x >= col_poz[7][col_k[7] - 1][0] && clc_x <= col_poz[7][col_k[7] - 1][0] + 69.f * 2.f && clc_y >= col_poz[7][col_k[7] - 1][1] && clc_y <= col_poz[7][col_k[7] - 1][1] + 94.f * 1.9f) {
-                    sell.set_categorie('c', 7, col_k[7] - 1);
-                    sell.set_pozitie(col_poz[7][col_k[7] - 1][0], col_poz[7][col_k[7] - 1][1]);
-                    sell.set_afiseaza(1);
-                    k_selectata = 1;
+            if(k_selectata == 0 ) {
+                //verifica daca s-a facut clic pe cartea din coloana de la 0 la 7
+                for(int cc=0; cc<8; cc++) {
+                    if(col_k[cc] > 0 && clc_x >= col_poz[cc][col_k[cc] - 1][0] && clc_x <= col_poz[cc][col_k[cc] - 1][0] + 69.f * 2.f && clc_y >= col_poz[cc][col_k[cc] - 1][1] && clc_y <= col_poz[cc][col_k[cc] - 1][1] + 94.f * 1.9f) {
+                        sell.set_categorie('c', cc, col_k[cc] - 1);
+                        sell.set_pozitie(col_poz[cc][col_k[cc] - 1][0], col_poz[cc][col_k[cc] - 1][1]);
+                        sell.set_afiseaza(1);
+                        k_selectata = 1;
+                        break;
+                    }
                 }
             }
             if(k_selectata == 0) {
@@ -319,209 +233,48 @@ class tabla {
         }
         selectie muta_cartea(float clc_x, float clc_y, char c, int kl, int rn, int qv, int qs, selectie sell) {
             sell.set_afiseaza(0);
-            //verifica daca s-a facut clic pe free cell 0
-            if(free_cell_k[0] == 0) {
+            carte qrt;
+            //verifica daca s-a facut clic pe free cell
+            for(int i=0; i<4; i++) {
                 //mutarea se face daca nu exista carte in free cell 0
-                if(clc_x >= free_cell_poz[0][0] && clc_x <= free_cell_poz[0][0] + 69.f * 2.f && clc_y >= free_cell_poz[0][1] && clc_y <= free_cell_poz[0][1] + 94.f * 1.9f) {
+                if(free_cell_k[i] == 0 && clc_x >= free_cell_poz[i][0] && clc_x <= free_cell_poz[i][0] + 69.f * 2.f && clc_y >= free_cell_poz[i][1] && clc_y <= free_cell_poz[i][1] + 94.f * 1.9f) {
                     //cartea este din una dintre coloane
+                    free_cell_k[i] = 1;
                     if(c == 'c') {
                         //preia cartea in free cel
-                        free_cell_k[0] = 1;
-                        free_cell[0] = coloana[kl][rn];
+                        free_cell[i] = coloana[kl][rn];
                         //elimina cartea din coloana
-                        carte qrt;
                         coloana[kl][rn] = qrt;
                         col_k[kl] -= 1;
                     }
                     //cartea este dintr-o alta free cell
                     if(c == 'f' && kl != 0) {
                         //preia cartea in acest free cel
-                        free_cell_k[0] = 1;
-                        free_cell[0] = free_cell[kl];
+                        free_cell[i] = free_cell[kl];
                         //elimina cartea din free cel
-                        carte qrt;
-                        free_cell[kl] = qrt;
-                        free_cell_k[kl] = 0;
-                    }
-                }
-            }
-            //verifica daca s-a facut clic pe free cell 1
-            if(free_cell_k[1] == 0) {
-                //mutarea se face daca nu exista carte in free cell 1
-                if(clc_x >= free_cell_poz[1][0] && clc_x <= free_cell_poz[1][0] + 69.f * 2.f && clc_y >= free_cell_poz[1][1] && clc_y <= free_cell_poz[1][1] + 94.f * 1.9f) {
-                    //cartea este din una dintre coloane
-                    if(c == 'c') {
-                        //preia cartea in free cel
-                        free_cell_k[1] = 1;
-                        free_cell[1] = coloana[kl][rn];
-                        //elimina cartea din coloana
-                        carte qrt;
-                        coloana[kl][rn] = qrt;
-                        col_k[kl] -= 1;
-                    }
-                    //cartea este dintr-o alta free cell
-                    if(c == 'f' && kl != 1) {
-                        //preia cartea in acest free cel
-                        free_cell_k[1] = 1;
-                        free_cell[1] = free_cell[kl];
-                        //elimina cartea din free cel
-                        carte qrt;
-                        free_cell[kl] = qrt;
-                        free_cell_k[kl] = 0;
-                    }
-                }
-            }
-            //verifica daca s-a facut clic pe free cell 2
-            if(free_cell_k[2] == 0) {
-                //mutarea se face daca nu exista carte in free cell 2
-                if(clc_x >= free_cell_poz[2][0] && clc_x <= free_cell_poz[2][0] + 69.f * 2.f && clc_y >= free_cell_poz[2][1] && clc_y <= free_cell_poz[2][1] + 94.f * 1.9f) {
-                    //cartea este din una dintre coloane
-                    if(c == 'c') {
-                        //preia cartea in free cel
-                        free_cell_k[2] = 1;
-                        free_cell[2] = coloana[kl][rn];
-                        //elimina cartea din coloana
-                        carte qrt;
-                        coloana[kl][rn] = qrt;
-                        col_k[kl] -= 1;
-                    }
-                    //cartea este dintr-o alta free cell
-                    if(c == 'f' && kl != 2) {
-                        //preia cartea in acest free cel
-                        free_cell_k[2] = 1;
-                        free_cell[2] = free_cell[kl];
-                        //elimina cartea din free cel
-                        carte qrt;
-                        free_cell[kl] = qrt;
-                        free_cell_k[kl] = 0;
-                    }
-                }
-            }
-            //verifica daca s-a facut clic pe free cell 3
-            if(free_cell_k[3] == 0) {
-                //mutarea se face daca nu exista carte in free cell 3
-                if(clc_x >= free_cell_poz[3][0] && clc_x <= free_cell_poz[3][0] + 69.f * 2.f && clc_y >= free_cell_poz[3][1] && clc_y <= free_cell_poz[3][1] + 94.f * 1.9f) {
-                    //cartea este din una dintre coloane
-                    if(c == 'c') {
-                        //preia cartea in free cel
-                        free_cell_k[3] = 1;
-                        free_cell[3] = coloana[kl][rn];
-                        //elimina cartea din coloana
-                        carte qrt;
-                        coloana[kl][rn] = qrt;
-                        col_k[kl] -= 1;
-                    }
-                    //cartea este dintr-o alta free cell
-                    if(c == 'f' && kl != 3) {
-                        //preia cartea in acest free cel
-                        free_cell_k[3] = 1;
-                        free_cell[3] = free_cell[kl];
-                        //elimina cartea din free cel
-                        carte qrt;
                         free_cell[kl] = qrt;
                         free_cell_k[kl] = 0;
                     }
                 }
             }
             //verifica daca s-a facut clic pe baza 0
-            if(qs == 0 && ((baza_k[0] == 0 && qv == 0) || (baza_k[0] == 1 && baza[0].da_valoare() + 1 == qv))) {
+            for(int i=0; i<4; i++) {
                 //mutarea se face daca se respecta simbolul, iar cartea este urmatoarea valoare
-                if(clc_x >= baza_poz[0][0] && clc_x <= baza_poz[0][0] + 69.f * 2.f && clc_y >= baza_poz[0][1] && clc_y <= baza_poz[0][1] + 94.f * 1.9f) {
+                if((qs == i && ((baza_k[i] == 0 && qv == 0) || (baza_k[i] == 1 && baza[i].da_valoare() + 1 == qv))) && clc_x >= baza_poz[i][0] && clc_x <= baza_poz[i][0] + 69.f * 2.f && clc_y >= baza_poz[i][1] && clc_y <= baza_poz[i][1] + 94.f * 1.9f) {
                     //cartea este din una dintre coloane
+                    baza_k[i] = 1;
                     if(c == 'c') {
                         //preia cartea in baza
-                        baza_k[0] = 1;
-                        baza[0] = coloana[kl][rn];
+                        baza[i] = coloana[kl][rn];
                         //elimina cartea din coloana
-                        carte qrt;
                         coloana[kl][rn] = qrt;
                         col_k[kl] -= 1;
                     }
                     //cartea este dintr-o free cell
                     if(c == 'f') {
                         //preia cartea in baz
-                        baza_k[0] = 1;
-                        baza[0] = free_cell[kl];
+                        baza[i] = free_cell[kl];
                         //elimina cartea din free cell
-                        carte qrt;
-                        free_cell[kl] = qrt;
-                        free_cell_k[kl] = 0;
-                    }
-                }
-            }
-            //verifica daca s-a facut clic pe baza 1
-            if(qs == 1 && ((baza_k[1] == 0 && qv == 0) || (baza_k[1] == 1 && baza[1].da_valoare() + 1 == qv))) {
-                //mutarea se face daca se respecta simbolul, iar cartea este urmatoarea valoare
-                if(clc_x >= baza_poz[1][0] && clc_x <= baza_poz[1][0] + 69.f * 2.f && clc_y >= baza_poz[1][1] && clc_y <= baza_poz[1][1] + 94.f * 1.9f) {
-                    //cartea este din una dintre coloane
-                    if(c == 'c') {
-                        //preia cartea in baza
-                        baza_k[1] = 1;
-                        baza[1] = coloana[kl][rn];
-                        //elimina cartea din coloana
-                        carte qrt;
-                        coloana[kl][rn] = qrt;
-                        col_k[kl] -= 1;
-                    }
-                    //cartea este dintr-o free cell
-                    if(c == 'f') {
-                        //preia cartea in baz
-                        baza_k[1] = 1;
-                        baza[1] = free_cell[kl];
-                        //elimina cartea din free cell
-                        carte qrt;
-                        free_cell[kl] = qrt;
-                        free_cell_k[kl] = 0;
-                    }
-                }
-            }
-            //verifica daca s-a facut clic pe baza 0
-            if(qs == 2 && ((baza_k[2] == 0 && qv == 0) || (baza_k[2] == 1 && baza[2].da_valoare() + 1 == qv))) {
-                //mutarea se face daca se respecta simbolul, iar cartea este urmatoarea valoare
-                if(clc_x >= baza_poz[2][0] && clc_x <= baza_poz[2][0] + 69.f * 2.f && clc_y >= baza_poz[2][1] && clc_y <= baza_poz[2][1] + 94.f * 1.9f) {
-                    //cartea este din una dintre coloane
-                    if(c == 'c') {
-                        //preia cartea in baza
-                        baza_k[2] = 1;
-                        baza[2] = coloana[kl][rn];
-                        //elimina cartea din coloana
-                        carte qrt;
-                        coloana[kl][rn] = qrt;
-                        col_k[kl] -= 1;
-                    }
-                    //cartea este dintr-o free cell
-                    if(c == 'f') {
-                        //preia cartea in baz
-                        baza_k[2] = 1;
-                        baza[2] = free_cell[kl];
-                        //elimina cartea din free cell
-                        carte qrt;
-                        free_cell[kl] = qrt;
-                        free_cell_k[kl] = 0;
-                    }
-                }
-            }
-            //verifica daca s-a facut clic pe baza 3
-            if(qs == 3 && ((baza_k[3] == 0 && qv == 0) || (baza_k[3] == 1 && baza[3].da_valoare() + 1 == qv))) {
-                //mutarea se face daca se respecta simbolul, iar cartea este urmatoarea valoare
-                if(clc_x >= baza_poz[3][0] && clc_x <= baza_poz[3][0] + 69.f * 2.f && clc_y >= baza_poz[3][1] && clc_y <= baza_poz[3][1] + 94.f * 1.9f) {
-                    //cartea este din una dintre coloane
-                    if(c == 'c') {
-                        //preia cartea in baza
-                        baza_k[3] = 1;
-                        baza[3] = coloana[kl][rn];
-                        //elimina cartea din coloana
-                        carte qrt;
-                        coloana[kl][rn] = qrt;
-                        col_k[kl] -= 1;
-                    }
-                    //cartea este dintr-o free cell
-                    if(c == 'f') {
-                        //preia cartea in baz
-                        baza_k[3] = 1;
-                        baza[3] = free_cell[kl];
-                        //elimina cartea din free cell
-                        carte qrt;
                         free_cell[kl] = qrt;
                         free_cell_k[kl] = 0;
                     }
@@ -530,7 +283,6 @@ class tabla {
             //verifica daca s-a facut clic pe coloana
             for(int nkl=0; nkl<8; nkl++) {
                 if(clc_x >= col_poz[nkl][1][0] && clc_x <= col_poz[nkl][1][0] + 69.f * 2.f && clc_y >= col_poz[nkl][0][1] && clc_y <= col_poz[nkl][14][1] + 94.f * 1.9f) {
-                    //mesaj.setString(std::__cxx11::to_string(col_k[nkl]));
                     if((c == 'f' || (c == 'c' && nkl != kl)) && (col_k[nkl] == 0 || (col_k[nkl] > 0 && col_k[nkl] < 15 && (coloana[nkl][col_k[nkl]-1].da_valoare() == qv + 1) && ((coloana[nkl][col_k[nkl]-1].da_simbol() % 2) != (qs % 2))))) {
                         //mutarea se face daca:
                         //   --selectia vine de pe un free cell ori de pe alta coloana
@@ -541,14 +293,12 @@ class tabla {
                         if(c == 'c') {
                             coloana[nkl][col_k[nkl]-1] = coloana[kl][rn];
                             //elimina cartea din coloana
-                            carte qrt;
                             coloana[kl][rn] = qrt;
                             col_k[kl] -= 1;
                         }
                         if(c == 'f') {
                             coloana[nkl][col_k[nkl]-1] = free_cell[kl];
                             //elimina cartea din free cell
-                            carte qrt;
                             free_cell[kl] = qrt;
                             free_cell_k[kl] = 0;
                         }
@@ -615,6 +365,14 @@ class qwk {
         tabla tb;
         pachet p;
         sf::Sprite sp_afis[52];
+        void afiseaza_zona(int kx, carte krt, int kpoz0, int kpoz1) {
+            if(kx == 1) {
+                carte ktmp = krt;
+                int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
+                sp_afis[kord].setPosition(kpoz0, kpoz1);
+                window.draw(sp_afis[kord]);
+            }
+        }
     public:
         qwk() {
             //pozitia de citire din imaginea de baza pentru fiecare carte
@@ -697,31 +455,15 @@ class qwk {
             }
             //afiseaza free cell
             for(int x=0; x<4; x++) {
-                //daca exista carte
-                if(tb.ffree_cell_k(x) == 1) {
-                    carte ktmp = tb.ffree_cell(x);
-                    int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
-                    sp_afis[kord].setPosition(tb.ffree_cell_poz(x, 0), tb.ffree_cell_poz(x, 1));
-                    window.draw(sp_afis[kord]);
-                }
+                afiseaza_zona(tb.ffree_cell_k(x), tb.ffree_cell(x), tb.ffree_cell_poz(x, 0), tb.ffree_cell_poz(x, 1));
             }
             //afiseaza baza
             for(int x=0; x<4; x++) {
-                //daca exista carte
-                if(tb.fbaza_k(x) == 1) {
-                    carte ktmp = tb.fbaza(x);
-                    int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
-                    sp_afis[kord].setPosition(tb.fbaza_poz(x, 0), tb.fbaza_poz(x, 1));
-                    window.draw(sp_afis[kord]);
-                }
+                afiseaza_zona(tb.fbaza_k(x), tb.fbaza(x), tb.fbaza_poz(x, 0), tb.fbaza_poz(x, 1));
             }
             for(int x=0; x<8; x++) {
                 for(int y=0; y<tb.fcol_k(x); y++) {
-                    //citeste valoarea cartii si ii stabileste ordinea in pachetul de carti
-                    carte ktmp = tb.fcoloana(x, y);
-                    int kord = ktmp.da_valoare() * 4 + ktmp.da_simbol();
-                    sp_afis[kord].setPosition(tb.fcol_poz(x, y, 0), tb.fcol_poz(x, y, 1));
-                    window.draw(sp_afis[kord]);
+                    afiseaza_zona(1, tb.fcoloana(x, y), tb.fcol_poz(x, y, 0), tb.fcol_poz(x, y, 1));
                 }
             }
             //afiseaza selectia
