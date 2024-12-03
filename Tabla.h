@@ -51,6 +51,28 @@ class tabla {
                 }
             }
         }
+        friend std::ostream& operator<<(std::ostream& os, const tabla& tbk) {
+            os << "free-cell:\n";
+            for(int i=0; i<4; i++) {
+                if(tbk.free_cell_k[i] == 0) os << "  - blank\n";
+                else os << "  - " << tbk.free_cell[i] << '\n';
+            }
+            os << "baza:\n";
+            for(int i=0; i<4; i++) {
+                if(tbk.baza_k[i] == 0) os << "  - blank\n";
+                else os << "  - " << tbk.baza[i] << '\n';
+            }
+            for(int i=0; i<8; i++) {
+                os << "coloana" << i+1 << ":\n";
+                if(tbk.col_k[i] == 0) os << "  - blank\n";
+                else {
+                    for (int j=0; j<tbk.col_k[i]; j++) {
+                        os << "  - " << tbk.coloana[i][j] << '\n';
+                    }
+                }
+            }
+            return os;
+        }
         carte ffree_cell(int i) {
             return free_cell[i];
         }
@@ -258,6 +280,8 @@ class qwk {
                 sp_afis[y].setScale(2.f,1.9f);
             }
             p.amesteca();
+            std::cout << "Test afisare pachet amestecat\n";
+            std::cout << p;
             //imparte cartile pe coloane
             for(int i = 0; i < 52; i++) {
                 int nCol, nRnd;
@@ -265,6 +289,8 @@ class qwk {
                 nRnd = i / 8;
                 tb.fscoloana(nCol, nRnd, p.da_cartea(i));
             }
+            std::cout << "Test afisare tabla de joc\n";
+            std::cout << tb;
         }
         void afiseaza_tabla(int mod) {
             //afiseaza fereastra cu imaginea de fundal
