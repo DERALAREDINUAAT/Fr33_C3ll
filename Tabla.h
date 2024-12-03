@@ -279,6 +279,9 @@ class qwk {
                 sp_afis[y].setTextureRect(sf::IntRect(poz_carte[y / 4][y % 4][0], poz_carte[y / 4][y % 4][1], 71, 96));
                 sp_afis[y].setScale(2.f,1.9f);
             }
+            //pachetul de carti
+            std::cout << "Test afisare pachet de carti neamestecat\n";
+            std::cout << p;
             p.amesteca();
             std::cout << "Test afisare pachet amestecat\n";
             std::cout << p;
