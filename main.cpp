@@ -16,10 +16,6 @@ int main()
     std::cout << "Test afisare carte\n";
     carte kk(0, 11);
     std::cout << kk << '\n';
-    //pachetul de carti
-    std::cout << "Test afisare pachet de carti neamestecat\n";
-    pachet pk;
-    std::cout << pk;
     qwk qw;
     //amesteca pachetul de carti
     srand(time(0));
