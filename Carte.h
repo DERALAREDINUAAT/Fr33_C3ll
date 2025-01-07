@@ -6,7 +6,7 @@ class symbol {
         symbol() {
             simbol = 0;
         }
-        symbol(int s) {
+        explicit symbol(int s) {
             simbol = s;
         }
         void set_simbol(int s) {
@@ -107,7 +107,7 @@ class diffic {
         diffic() {
             dificultate = 0;
         }
-        diffic(int diff) {
+        explicit diffic(int diff) {
             dificultate = diff;
         }
         void set_dificultate(int diff) {
