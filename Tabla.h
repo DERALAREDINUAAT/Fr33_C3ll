@@ -206,7 +206,118 @@ class tabla {
                     }
                 }
             }
+            //verifica daca in casetele bazei sunt popi, joc incheiat
+            int b_terminat = 1;
+            for(int i=0; i<4; i++) {
+                if(baza[i].da_valoare() != 12) b_terminat = 0;
+            }
+            if (b_terminat == 1) sell.set_terminat(1);
             return sell;
+        }
+};
+
+class stabileste_dificultatea {
+    private:
+        sf::RenderWindow win_init;//fereastra de lucru
+        sf::Texture tx_init;//textura cu imaginea de fundal
+        sf::Sprite sp_init;//spriteul in care se incarca imaginea de fundal
+        sf::Sprite sp_bifat;//bifa pentru dificultatea aleasa
+        int dificultate;
+        int terminat;
+    public:
+        stabileste_dificultatea() {
+            win_init.create(sf::VideoMode(1300, 920), "Free Cell");
+            //incarca imaginea de fundal in textura
+            tx_init.loadFromFile("resources/dificultate.png");
+            //selecteaza dreptunghiul cu imaginea de fundal in sprite-ul fundal
+            sp_init.setTexture(tx_init);
+            sp_init.setTextureRect(sf::IntRect(0, 0, 1264, 860));
+            sp_init.setPosition(18.f,30.f);
+            //bifat
+            sp_bifat.setTexture(tx_init);
+            sp_bifat.setTextureRect(sf::IntRect(1266, 55, 63, 50));
+            sp_bifat.setPosition(335.f, 413.f);
+            dificultate = 0;
+            terminat = 0;
+        }
+        void afiseaza_init() {
+            //afiseaza fereastra cu imaginea de fundal
+            win_init.clear();
+            win_init.draw(sp_init);
+            //afiseaza bifa
+            switch(dificultate) {
+            case 0:
+                sp_bifat.setPosition(335.f + 18.f, 413.f + 30.f);
+                win_init.draw(sp_bifat);
+                break;
+            case 1:
+                sp_bifat.setPosition(335.f + 18.f, 198.f + 30.f);
+                win_init.draw(sp_bifat);
+                break;
+            case 2:
+                sp_bifat.setPosition(335.f + 18.f, 274.f + 30.f);
+                win_init.draw(sp_bifat);
+                break;
+            case 3:
+                sp_bifat.setPosition(335.f + 18.f, 340.f + 30.f);
+                win_init.draw(sp_bifat);
+                break;
+            }
+            win_init.display();
+        }
+        void identifica_dificultate(float clc_x, float clc_y) {
+            //usor
+            if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 198.f + 30.f && clc_y <= 248.f + 30.f) {
+                dificultate = 1;
+            }
+            //mediu
+            if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 274.f + 30.f && clc_y <= 324.f + 30.f) {
+                dificultate = 2;
+            }
+            //dificil
+            if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 340.f + 30.f && clc_y <= 390.f + 30.f) {
+                dificultate = 3;
+            }
+            //aleatoriu
+            if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 413.f + 30.f && clc_y <= 463.f + 30.f) {
+                dificultate = 0;
+            }
+            //ok
+            if(clc_x >= 488.f + 18.f && clc_x <= 618.f + 18.f && clc_y >= 532.f + 30.f && clc_y <= 594.f + 30.f) {
+                terminat = 1;
+            }
+        }
+        int da_dificultate() {
+            return dificultate;
+        }
+        void joaca_init() {
+            while (win_init.isOpen()) {
+                sf::Event event;
+                while (win_init.pollEvent(event))
+                {
+                    if (event.type == sf::Event::Closed) {
+                        win_init.close();
+                        return;
+                    }
+                }
+                afiseaza_init();
+
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                    //clic stanga
+                    //citeste pozitia mausului
+                    //identifica actiunea
+                    identifica_dificultate(sf::Mouse::getPosition(win_init).x, sf::Mouse::getPosition(win_init).y);
+                    while(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                        //asteapta eliberarea mausului
+                    }
+                    if (terminat == 1) {
+                        //a fost aleasa dificultatea, se continua jocul
+                        win_init.close();
+                        return;
+                    }
+                    afiseaza_init();
+                }
+            }
         }
 };
 
@@ -225,6 +336,8 @@ class qwk {
         tabla tb;
         pachet p;
         sf::Sprite sp_afis[52];
+        sf::SoundBuffer buffer;
+        sf::Sound win_sound;
         void afiseaza_zona(int kx, carte krt, int kpoz0, int kpoz1) {
             if(kx == 1) {
                 carte ktmp = krt;
@@ -234,7 +347,7 @@ class qwk {
             }
         }
     public:
-        qwk() {
+        qwk(int diff) {
             //pozitia de citire din imaginea de baza pentru fiecare carte
             std::ifstream sourceFileStream{ "resources/coord_carti.txt" };
             for(int i=0; i<13; i++) {
@@ -282,6 +395,7 @@ class qwk {
             //pachetul de carti
             std::cout << "Test afisare pachet de carti neamestecat\n";
             std::cout << p;
+            p.set_dificultate(diff);
             p.amesteca();
             std::cout << "Test afisare pachet amestecat\n";
             std::cout << p;
@@ -294,6 +408,7 @@ class qwk {
             }
             std::cout << "Test afisare tabla de joc\n";
             std::cout << tb;
+            buffer.loadFromFile("resources/felicitari.wav");
         }
         void afiseaza_tabla(int mod) {
             //afiseaza fereastra cu imaginea de fundal
@@ -314,6 +429,7 @@ class qwk {
             for(int x=0; x<4; x++) {
                 afiseaza_zona(tb.fbaza_k(x), tb.fbaza(x), tb.fbaza_poz(x, 0), tb.fbaza_poz(x, 1));
             }
+            //afiseaza coloanele
             for(int x=0; x<8; x++) {
                 for(int y=0; y<tb.fcol_k(x); y++) {
                     afiseaza_zona(1, tb.fcoloana(x, y), tb.fcol_poz(x, y, 0), tb.fcol_poz(x, y, 1));
@@ -349,7 +465,7 @@ class qwk {
                 }
 
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                {   //clic dreapta
+                {   //clic stanga
                     //citeste pozitia mausului
                     //identifica cartea selectata
                     switch(p_mod_lucru) {
@@ -374,6 +490,10 @@ class qwk {
                             if(sel.da_afiseaza() == 0) p_mod_lucru = 's';
                             while(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                                 //asteapta eliberarea mausului
+                            }
+                            if (sel.da_terminat() == 1) {
+                                win_sound.setBuffer(buffer);
+                                win_sound.play();
                             }
                         break;
                     }
