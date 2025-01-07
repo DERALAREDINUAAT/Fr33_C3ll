@@ -1,47 +1,62 @@
-
-class selectie {
-    private:
+class category {
+    protected:
         char categorie; // 'f'-free cell, 'b'-baza, 'c'-coloana
+    public:
+        category() {
+            categorie = 'f';
+        }
+        category(char categ) {
+            categorie = categ;
+        }
+        void set_categorie(char categ) {
+            categorie = categ;
+        }
+};
+
+class selectie: public category {
+    private:
         int c;
         int r; //indicele de coloana, respectiv rand al selectiei. Pentru free cell indicele de rand nu conteaza, este 0.
         int x;
         int y; //pozitia de afisare a selectiei
         int afiseaza; //daca chenarul de selectare trebuie afisat
+        int terminat; //ia valoarea 1 cand jocul a fost incheiat cu succes
     public:
         selectie() {
-            categorie = 'f';
             c = 0;
             r = 0;
             x = 20;
             y = 70;
             afiseaza = 0;
+            terminat = 0;
         }
-        selectie(char categ, int cx, int cy, int afx, int afy, int af) {
-            categorie = categ;
+        selectie(char categ, int cx, int cy, int afx, int afy, int af, int t): category(categ) {
             c = cx;
             r = cy;
             x = afx;
             y = afy;
             afiseaza = af;
+            terminat = t;
         }
-        selectie(const selectie &q) {
-            categorie = q.categorie;
+        selectie(const selectie &q): category(q.categorie) {
             c = q.c;
             r = q.r;
             x = q.x;
             y = q.y;
             afiseaza = q.afiseaza;
+            terminat = q.terminat;
         }
         ~selectie() {
 
         }
         void operator =(const selectie &q) {
-            categorie = q.categorie;
+            category::set_categorie(q.categorie);
             c = q.c;
             r = q.r;
             x = q.x;
             y = q.y;
             afiseaza = q.afiseaza;
+            terminat = q.terminat;
         }
         int da_afiseaza() {
             return afiseaza;
@@ -60,7 +75,7 @@ class selectie {
             y = poz_y;
         }
         void set_categorie(char k, int ix, int iy) {
-            categorie = k;
+            category::set_categorie(k);
             c = ix;
             r = iy;
         }
@@ -72,5 +87,11 @@ class selectie {
         }
         int da_rand() {
             return r;
+        }
+        int da_terminat() {
+            return terminat;
+        }
+        void set_terminat(int t) {
+            terminat = t;
         }
 };
