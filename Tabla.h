@@ -347,7 +347,7 @@ class qwk {
             }
         }
     public:
-        qwk(int diff) {
+        explicit qwk(int diff) {
             //pozitia de citire din imaginea de baza pentru fiecare carte
             std::ifstream sourceFileStream{ "resources/coord_carti.txt" };
             for(int i=0; i<13; i++) {
