@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <SFML/Audio.hpp>
 
 #include <sstream>
 #include <fstream>
@@ -16,7 +17,11 @@ int main()
     std::cout << "Test afisare carte\n";
     carte kk(0, 11);
     std::cout << kk << '\n';
-    qwk qw;
+    stabileste_dificultatea st;
+    st.afiseaza_init();
+    st.joaca_init();
+    int df = st.da_dificultate();
+    qwk qw(df);
     //amesteca pachetul de carti
     srand(time(0));
 
