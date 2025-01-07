@@ -1,19 +1,30 @@
 
-class carte {
-    private:
+class symbol {
+    protected:
         int simbol;
+    public:
+        symbol() {
+            simbol = 0;
+        }
+        symbol(int s) {
+            simbol = s;
+        }
+        void set_simbol(int s) {
+            simbol = s;
+        }
+};
+
+class carte: public symbol {
+    private:
         int valoare;
     public:
         carte() {
-            simbol = 0;
             valoare = 0;
         }
-        carte(int s, int v) {
-            simbol = s;
+        carte(int s, int v): symbol(s) {
             valoare = v;
         }
-        carte(const carte &q) {
-            simbol = q.simbol;
+        carte(const carte &q): symbol(q.simbol) {
             valoare = q.valoare;
         }
         ~carte() {
@@ -77,9 +88,9 @@ class carte {
             }
             return os;
         }
-        void operator =(const carte &q) {
-            simbol = q.simbol;
+        void operator =(const carte &q)  {
             valoare = q.valoare;
+            symbol::set_simbol(q.simbol);
         }
         int da_simbol() {
             return simbol;
@@ -89,7 +100,22 @@ class carte {
         }
 };
 
-class pachet {
+class diffic {
+    protected:
+        int dificultate;
+    public:
+        diffic() {
+            dificultate = 0;
+        }
+        diffic(int diff) {
+            dificultate = diff;
+        }
+        void set_dificultate(int diff) {
+            dificultate = diff;
+        }
+};
+
+class pachet : public diffic {
     private:
         int ord_i[13][4], ord[13][4];
         carte k[4][13];
@@ -118,12 +144,95 @@ class pachet {
             return os;
         }
         void amesteca() {
-            for(int i=0; i<52; i++) {
-                int marja = 52 - i;
-                int al = rand() % marja;
-                int aux = ord[i / 4][i % 4];
-                ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                ord[(al + i) / 4][(al + i) % 4] = aux;
+            switch(dificultate) {
+            case 0:
+                for(int i=0; i<52; i++) {
+                    int marja = 52 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                break;
+            case 1:
+                for(int i=0; i<20; i++) {
+                    int marja = 20 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=20; i<36; i++) {
+                    int marja = 36 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=36; i<52; i++) {
+                    int marja = 52 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=0; i<26; i++) {
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(51 - i) / 4][(51 - i) % 4];
+                    ord[(51 - i) / 4][(51 - i) % 4] = aux;
+                }
+                break;
+            case 2:
+                for(int i=0; i<20; i++) {
+                    int marja = 20 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=20; i<36; i++) {
+                    int marja = 36 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=36; i<52; i++) {
+                    int marja = 52 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                break;
+            case 3:
+                for(int i=0; i<20; i++) {
+                    int marja = 20 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=20; i<36; i++) {
+                    int marja = 36 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=36; i<52; i++) {
+                    int marja = 52 - i;
+                    int al = rand() % marja;
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                    ord[(al + i) / 4][(al + i) % 4] = aux;
+                }
+                for(int i=20; i<36; i++) {
+                    int aux = ord[i / 4][i % 4];
+                    ord[i / 4][i % 4] = ord[(71 - i) / 4][(71 - i) % 4];
+                    ord[(71 - i) / 4][(71 - i) % 4] = aux;
+                }
+                break;
             }
         }
         carte da_cartea(int o) {
