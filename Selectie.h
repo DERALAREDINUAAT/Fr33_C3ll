@@ -5,7 +5,7 @@ class category {
         category() {
             categorie = 'f';
         }
-        category(char categ) {
+        explicit category(char categ) {
             categorie = categ;
         }
         void set_categorie(char categ) {
