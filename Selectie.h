@@ -1,20 +1,6 @@
-class category {
-    protected:
-        char categorie; // 'f'-free cell, 'b'-baza, 'c'-coloana
-    public:
-        category() {
-            categorie = 'f';
-        }
-        explicit category(char categ) {
-            categorie = categ;
-        }
-        void set_categorie(char categ) {
-            categorie = categ;
-        }
-};
-
-class selectie: public category {
+class selectie {
     private:
+        char categorie; // 'f'-free cell, 'b'-baza, 'c'-coloana
         int c;
         int r; //indicele de coloana, respectiv rand al selectiei. Pentru free cell indicele de rand nu conteaza, este 0.
         int x;
@@ -23,6 +9,7 @@ class selectie: public category {
         int terminat; //ia valoarea 1 cand jocul a fost incheiat cu succes
     public:
         selectie() {
+            categorie = 'f';
             c = 0;
             r = 0;
             x = 20;
@@ -30,7 +17,8 @@ class selectie: public category {
             afiseaza = 0;
             terminat = 0;
         }
-        selectie(char categ, int cx, int cy, int afx, int afy, int af, int t): category(categ) {
+        selectie(char categ, int cx, int cy, int afx, int afy, int af, int t) {
+            categorie = categ;
             c = cx;
             r = cy;
             x = afx;
@@ -38,7 +26,8 @@ class selectie: public category {
             afiseaza = af;
             terminat = t;
         }
-        selectie(const selectie &q): category(q.categorie) {
+        selectie(const selectie &q) {
+            categorie = q.categorie;
             c = q.c;
             r = q.r;
             x = q.x;
@@ -50,7 +39,7 @@ class selectie: public category {
 
         }
         void operator =(const selectie &q) {
-            category::set_categorie(q.categorie);
+            categorie = q.categorie;
             c = q.c;
             r = q.r;
             x = q.x;
@@ -75,7 +64,7 @@ class selectie: public category {
             y = poz_y;
         }
         void set_categorie(char k, int ix, int iy) {
-            category::set_categorie(k);
+            categorie = k;
             c = ix;
             r = iy;
         }
@@ -94,4 +83,75 @@ class selectie: public category {
         void set_terminat(int t) {
             terminat = t;
         }
+};
+
+class difficulty {
+    private:
+        int dificultate;
+    public:
+        difficulty() {
+            dificultate = 0;
+        }
+        difficulty(int diff) {
+            dificultate = diff;
+        }
+        virtual difficulty *Clone() = 0;
+        virtual ~difficulty() {}
+        virtual int da_dificultate() = 0;
+};
+
+class difficulty0: public difficulty {
+    private:
+    public:
+        difficulty0(): difficulty(0) {} 
+        difficulty0(int diff): difficulty(diff) {} 
+        difficulty0 *Clone() {
+            return new difficulty0(*this);
+        } 
+        ~difficulty0() {}
+        virtual int da_dificultate() {
+            return 0;
+        } 
+};
+
+class difficulty1: public difficulty0 {
+    private:
+    public:
+        difficulty1(): difficulty0(1) {} 
+        difficulty1(int diff): difficulty0(diff) {}
+        difficulty1 *Clone() {
+            return new difficulty1(*this);
+        } 
+        ~difficulty1() {}
+        int da_dificultate() {
+            return 1;
+        } 
+};
+
+class difficulty2: public difficulty1 {
+    private:
+    public:
+        difficulty2(): difficulty1(2) {}
+        difficulty2(int diff): difficulty1(diff) {}
+        difficulty2 *Clone() {
+            return new difficulty2(*this);
+        } 
+        ~difficulty2() {}
+        int da_dificultate() {
+            return 2;
+        } 
+};
+
+class difficulty3: public difficulty2 {
+    private:
+    public:
+        difficulty3(): difficulty2(3) {} 
+        difficulty3(int diff): difficulty2(diff) {}
+        difficulty3 *Clone() {
+            return new difficulty3(*this);
+        } 
+        ~difficulty3() {}
+        int da_dificultate() {
+            return 3;
+        } 
 };
