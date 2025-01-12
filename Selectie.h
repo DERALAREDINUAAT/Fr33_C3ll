@@ -104,8 +104,8 @@ class difficulty0: public difficulty {
     private:
     public:
         difficulty0(): difficulty(0) {} 
-        difficulty0(int diff): difficulty(diff) {} 
-        difficulty0 *Clone() {
+        explicit difficulty0(int diff): difficulty(diff) {} 
+        difficulty0 *Clone() override {
             return new difficulty0(*this);
         } 
         ~difficulty0() {}
@@ -118,8 +118,8 @@ class difficulty1: public difficulty0 {
     private:
     public:
         difficulty1(): difficulty0(1) {} 
-        difficulty1(int diff): difficulty0(diff) {}
-        difficulty1 *Clone() {
+        explicit difficulty1(int diff): difficulty0(diff) {}
+        difficulty1 *Clone() override {
             return new difficulty1(*this);
         } 
         ~difficulty1() {}
@@ -132,8 +132,8 @@ class difficulty2: public difficulty1 {
     private:
     public:
         difficulty2(): difficulty1(2) {}
-        difficulty2(int diff): difficulty1(diff) {}
-        difficulty2 *Clone() {
+        explicit difficulty2(int diff): difficulty1(diff) {}
+        difficulty2 *Clone() override {
             return new difficulty2(*this);
         } 
         ~difficulty2() {}
@@ -146,8 +146,8 @@ class difficulty3: public difficulty2 {
     private:
     public:
         difficulty3(): difficulty2(3) {} 
-        difficulty3(int diff): difficulty2(diff) {}
-        difficulty3 *Clone() {
+        explicit difficulty3(int diff): difficulty2(diff) {}
+        difficulty3 *Clone() override {
             return new difficulty3(*this);
         } 
         ~difficulty3() {}
