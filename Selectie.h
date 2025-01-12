@@ -108,8 +108,8 @@ class difficulty0: public difficulty {
         difficulty0 *Clone() override {
             return new difficulty0(*this);
         } 
-        ~difficulty0() {}
-        virtual int da_dificultate() {
+        ~difficulty0() override {}
+        virtual int da_dificultate() override {
             return 0;
         } 
 };
@@ -122,8 +122,8 @@ class difficulty1: public difficulty0 {
         difficulty1 *Clone() override {
             return new difficulty1(*this);
         } 
-        ~difficulty1() {}
-        int da_dificultate() {
+        ~difficulty1() override {}
+        int da_dificultate() override {
             return 1;
         } 
 };
@@ -136,8 +136,8 @@ class difficulty2: public difficulty1 {
         difficulty2 *Clone() override {
             return new difficulty2(*this);
         } 
-        ~difficulty2() {}
-        int da_dificultate() {
+        ~difficulty2() override {}
+        int da_dificultate() override {
             return 2;
         } 
 };
@@ -150,8 +150,8 @@ class difficulty3: public difficulty2 {
         difficulty3 *Clone() override {
             return new difficulty3(*this);
         } 
-        ~difficulty3() {}
-        int da_dificultate() {
+        ~difficulty3() override {}
+        int da_dificultate() override {
             return 3;
         } 
 };
