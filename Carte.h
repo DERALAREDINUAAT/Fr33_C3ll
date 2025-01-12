@@ -1,31 +1,32 @@
 
-class symbol {
+class carton {
     protected:
-        int simbol;
+        int valoare;
     public:
-        symbol() {
-            simbol = 0;
+        carton() {
+            valoare = 0;
         }
-        explicit symbol(int s) {
-            simbol = s;
+        explicit carton(int v) {
+            valoare = v;
         }
-        void set_simbol(int s) {
-            simbol = s;
+        void set_valoare(int v) {
+            valoare = v;
         }
 };
 
-class carte: public symbol {
+class carte: public carton {
+    //carton cu simbol = carte de inima, frunza, romb sau trefla
     private:
-        int valoare;
+        int simbol;
     public:
         carte() {
-            valoare = 0;
+            simbol = 0;
         }
-        carte(int s, int v): symbol(s) {
-            valoare = v;
+        carte(int s, int v): carton(v) {
+            simbol = s;
         }
-        carte(const carte &q): symbol(q.simbol) {
-            valoare = q.valoare;
+        carte(const carte &q): carton(q.valoare) {
+            simbol = q.simbol;
         }
         ~carte() {
 
@@ -89,8 +90,8 @@ class carte: public symbol {
             return os;
         }
         void operator =(const carte &q)  {
-            valoare = q.valoare;
-            symbol::set_simbol(q.simbol);
+            simbol = q.simbol;
+            carton::set_valoare(q.valoare);
         }
         int da_simbol() {
             return simbol;
@@ -98,27 +99,37 @@ class carte: public symbol {
         int da_valoare() {
             return valoare;
         }
-};
-
-class diffic {
-    protected:
-        int dificultate;
-    public:
-        diffic() {
-            dificultate = 0;
+        void set_simbol(int s) {
+            simbol = s;
         }
-        explicit diffic(int diff) {
-            dificultate = diff;
-        }
-        void set_dificultate(int diff) {
-            dificultate = diff;
+        carte da_carte() {
+            return *this;
         }
 };
 
-class pachet : public diffic {
+class pachet: public carte {
     private:
         int ord_i[13][4], ord[13][4];
         carte k[4][13];
+        static const int nrCartiPachet = 52;
+        static const int nrCartiCalup1 = 20;
+        static const int nrcartiCalup2 = 36;
+        void amesteca_calup(int dela, int panala) {
+            for(int i=dela; i<panala; i++) {
+                int marja = panala - i;
+                int al = rand() % marja;
+                int aux = ord[i / 4][i % 4];
+                ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
+                ord[(al + i) / 4][(al + i) % 4] = aux;
+            }
+        }
+        void inverseaza_calup(int dela, int panala) {
+            for(int i=dela; i<panala; i++) {
+                int aux = ord[i / 4][i % 4];
+                ord[i / 4][i % 4] = ord[(51 + dela - i) / 4][(51 + dela - i) % 4];
+                ord[(51 + dela - i) / 4][(51 + dela - i) % 4] = aux;
+            }
+        }
     public:
         pachet() {
             int o = 0;
@@ -126,7 +137,9 @@ class pachet : public diffic {
                 for(int j=0; j<4; j++) {
                     ord_i[i][j] = o;
                     ord[i][j] = o;
-                    k[j][i] = carte(j,i);
+                    carton::set_valoare(i);
+                    carte::set_simbol(j);
+                    k[j][i] = carte::da_carte();
                     o++;
                 }
             }
@@ -143,95 +156,27 @@ class pachet : public diffic {
             }
             return os;
         }
-        void amesteca() {
+        void amesteca(int dificultate) {
             switch(dificultate) {
             case 0:
-                for(int i=0; i<52; i++) {
-                    int marja = 52 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
+                amesteca_calup(0, nrCartiPachet);
                 break;
             case 1:
-                for(int i=0; i<20; i++) {
-                    int marja = 20 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=20; i<36; i++) {
-                    int marja = 36 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=36; i<52; i++) {
-                    int marja = 52 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=0; i<26; i++) {
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(51 - i) / 4][(51 - i) % 4];
-                    ord[(51 - i) / 4][(51 - i) % 4] = aux;
-                }
+                amesteca_calup(0, nrCartiCalup1);
+                amesteca_calup(nrCartiCalup1, nrcartiCalup2);
+                amesteca_calup(nrcartiCalup2, nrCartiPachet);
+                inverseaza_calup(0, nrCartiPachet / 2);
                 break;
             case 2:
-                for(int i=0; i<20; i++) {
-                    int marja = 20 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=20; i<36; i++) {
-                    int marja = 36 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=36; i<52; i++) {
-                    int marja = 52 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
+                amesteca_calup(0, nrCartiCalup1);
+                amesteca_calup(nrCartiCalup1, nrcartiCalup2);
+                amesteca_calup(nrcartiCalup2, nrCartiPachet);
                 break;
             case 3:
-                for(int i=0; i<20; i++) {
-                    int marja = 20 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=20; i<36; i++) {
-                    int marja = 36 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=36; i<52; i++) {
-                    int marja = 52 - i;
-                    int al = rand() % marja;
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(al + i) / 4][(al + i) % 4];
-                    ord[(al + i) / 4][(al + i) % 4] = aux;
-                }
-                for(int i=20; i<36; i++) {
-                    int aux = ord[i / 4][i % 4];
-                    ord[i / 4][i % 4] = ord[(71 - i) / 4][(71 - i) % 4];
-                    ord[(71 - i) / 4][(71 - i) % 4] = aux;
-                }
+                amesteca_calup(0, nrCartiCalup1);
+                amesteca_calup(nrCartiCalup1, nrcartiCalup2);
+                amesteca_calup(nrcartiCalup2, nrCartiPachet);
+                inverseaza_calup(nrCartiCalup1, nrcartiCalup2);
                 break;
             }
         }
@@ -245,7 +190,9 @@ class pachet : public diffic {
             v = c / 4;
             s = c % 4;
             //si o intoarce ca rezultat
-            carte g = k[s][v];
+            carton::set_valoare(v);
+            carte::set_simbol(s);
+            carte g = carte::da_carte();
             return g;
         }
 };
