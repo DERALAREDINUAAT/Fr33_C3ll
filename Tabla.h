@@ -222,8 +222,12 @@ class stabileste_dificultatea {
         sf::Texture tx_init;//textura cu imaginea de fundal
         sf::Sprite sp_init;//spriteul in care se incarca imaginea de fundal
         sf::Sprite sp_bifat;//bifa pentru dificultatea aleasa
-        int dificultate;
         int terminat;
+        difficulty *point_dif;
+        difficulty0 df0;
+        difficulty1 df1;
+        difficulty2 df2;
+        difficulty3 df3;
     public:
         stabileste_dificultatea() {
             win_init.create(sf::VideoMode(1300, 920), "Free Cell");
@@ -237,50 +241,47 @@ class stabileste_dificultatea {
             sp_bifat.setTexture(tx_init);
             sp_bifat.setTextureRect(sf::IntRect(1266, 55, 63, 50));
             sp_bifat.setPosition(335.f, 413.f);
-            dificultate = 0;
             terminat = 0;
+            point_dif = &df0;
         }
         void afiseaza_init() {
             //afiseaza fereastra cu imaginea de fundal
             win_init.clear();
             win_init.draw(sp_init);
             //afiseaza bifa
-            switch(dificultate) {
+            switch(point_dif->da_dificultate()) {
             case 0:
                 sp_bifat.setPosition(335.f + 18.f, 413.f + 30.f);
-                win_init.draw(sp_bifat);
                 break;
             case 1:
                 sp_bifat.setPosition(335.f + 18.f, 198.f + 30.f);
-                win_init.draw(sp_bifat);
                 break;
             case 2:
                 sp_bifat.setPosition(335.f + 18.f, 274.f + 30.f);
-                win_init.draw(sp_bifat);
                 break;
             case 3:
                 sp_bifat.setPosition(335.f + 18.f, 340.f + 30.f);
-                win_init.draw(sp_bifat);
                 break;
             }
+            win_init.draw(sp_bifat);
             win_init.display();
         }
         void identifica_dificultate(float clc_x, float clc_y) {
             //usor
             if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 198.f + 30.f && clc_y <= 248.f + 30.f) {
-                dificultate = 1;
+                point_dif = &df1;
             }
             //mediu
             if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 274.f + 30.f && clc_y <= 324.f + 30.f) {
-                dificultate = 2;
+                point_dif = &df2;
             }
             //dificil
             if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 340.f + 30.f && clc_y <= 390.f + 30.f) {
-                dificultate = 3;
+                point_dif = &df3;
             }
             //aleatoriu
             if(clc_x >= 335.f + 18.f && clc_x <= 800.f + 18.f && clc_y >= 413.f + 30.f && clc_y <= 463.f + 30.f) {
-                dificultate = 0;
+                point_dif = &df0;
             }
             //ok
             if(clc_x >= 488.f + 18.f && clc_x <= 618.f + 18.f && clc_y >= 532.f + 30.f && clc_y <= 594.f + 30.f) {
@@ -288,7 +289,7 @@ class stabileste_dificultatea {
             }
         }
         int da_dificultate() {
-            return dificultate;
+            return point_dif->da_dificultate();
         }
         void joaca_init() {
             while (win_init.isOpen()) {
@@ -324,6 +325,7 @@ class stabileste_dificultatea {
 class qwk {
     private:
         int poz_carte[13][4][2];
+        std::string h;
         sf::Font fnt;
         sf::Text mesaj;
         sf::RenderWindow window;//fereastra de lucru
@@ -336,8 +338,8 @@ class qwk {
         tabla tb;
         pachet p;
         sf::Sprite sp_afis[52];
-        sf::SoundBuffer buffer;
-        sf::Sound win_sound;
+        //sf::SoundBuffer buffer;
+        //sf::Sound win_sound;
         void afiseaza_zona(int kx, carte krt, int kpoz0, int kpoz1) {
             if(kx == 1) {
                 carte ktmp = krt;
@@ -357,7 +359,9 @@ class qwk {
                 }
             }
             fnt.loadFromFile("resources/arial.ttf");
-            mesaj.setString("Hello!");
+            h = "!olleH";
+            std::reverse(h.begin(), h.end());
+            mesaj.setString(h);
             mesaj.setFont(fnt);
             mesaj.setCharacterSize(15);
             mesaj.setFillColor(sf::Color::Yellow);
@@ -395,8 +399,7 @@ class qwk {
             //pachetul de carti
             std::cout << "Test afisare pachet de carti neamestecat\n";
             std::cout << p;
-            p.set_dificultate(diff);
-            p.amesteca();
+            p.amesteca(diff);
             std::cout << "Test afisare pachet amestecat\n";
             std::cout << p;
             //imparte cartile pe coloane
@@ -408,7 +411,7 @@ class qwk {
             }
             std::cout << "Test afisare tabla de joc\n";
             std::cout << tb;
-            buffer.loadFromFile("resources/felicitari.wav");
+            //buffer.loadFromFile("resources/felicitari.wav");
         }
         void afiseaza_tabla(int mod) {
             //afiseaza fereastra cu imaginea de fundal
@@ -492,8 +495,8 @@ class qwk {
                                 //asteapta eliberarea mausului
                             }
                             if (sel.da_terminat() == 1) {
-                                win_sound.setBuffer(buffer);
-                                win_sound.play();
+                                //win_sound.setBuffer(buffer);
+                                //win_sound.play();
                             }
                         break;
                     }
