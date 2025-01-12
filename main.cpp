@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
 
 #include <sstream>
 #include <fstream>
@@ -21,12 +21,12 @@ int main()
     st.afiseaza_init();
     st.joaca_init();
     int df = st.da_dificultate();
-    qwk qw(df);
+    qwk joc(df);
     //amesteca pachetul de carti
     srand(time(0));
 
     //std::cout << "Afiseaza tabla de joc\n";
-    qw.afiseaza_tabla(0);
+    joc.afiseaza_tabla(0);
 
     //modul de lucru se defineste prin valorile
     // 's' - selecteaza cartea pe care se face clic
@@ -35,6 +35,6 @@ int main()
 
     int dr = 0;
 
-    qw.joaca(mod_lucru, dr);
+    joc.joaca(mod_lucru, dr);
     return 0;
 }
