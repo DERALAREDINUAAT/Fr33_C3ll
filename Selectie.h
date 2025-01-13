@@ -60,6 +60,10 @@ class selectie {
             return y;
         }
         void set_pozitie(int poz_x, int poz_y) {
+            if (poz_x + 71 > 1300 || poz_y + 96 > 920) {
+                err_pozitie epoz;
+                throw epoz;
+            }
             x = poz_x;
             y = poz_y;
         }
@@ -93,6 +97,10 @@ class difficulty {
             dificultate = 0;
         }
         difficulty(int diff) {
+            if (diff > 3) {
+                err_diff ediff;
+                throw ediff;
+            }
             dificultate = diff;
         }
         virtual difficulty *Clone() = 0;
