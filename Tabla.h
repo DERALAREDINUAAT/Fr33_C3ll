@@ -295,6 +295,8 @@ class stabileste_dificultatea {
             //ok
             if(clc_x >= 488.f + 18.f && clc_x <= 618.f + 18.f && clc_y >= 532.f + 30.f && clc_y <= 594.f + 30.f) {
                 terminat = 1;
+                difficulty *dff = point_dif->Clone();
+                std::cout << "Dificultatea este: " << dff->da_dificultate();
             }
         }
         int da_dificultate() {
