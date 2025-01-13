@@ -25,8 +25,6 @@ int main()
         st.afiseaza_init();
         st.joaca_init();
         int df = st.da_dificultate();
-        difficulty2 *dtest;
-        difficulty2 *dClona = dtest->Clone();
         qwk joc(df);
         //amesteca pachetul de carti
         srand(time(0));
