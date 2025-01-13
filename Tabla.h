@@ -43,6 +43,11 @@ class tabla {
                 col_k[i] = cl[i];
             }
             std::ifstream sourceFileStream{ "resources/coord_coloane.txt" };
+            if (sourceFileStream.fail()) {
+                err_load eload;
+                eload.set_cod(1);
+                throw eload;
+            }
             for(int i=0; i<8; i++) {
                 for(int j=0; j<15; j++) {
                     for(int k=0; k<2; k++) {
@@ -232,7 +237,11 @@ class stabileste_dificultatea {
         stabileste_dificultatea() {
             win_init.create(sf::VideoMode(1300, 920), "Free Cell");
             //incarca imaginea de fundal in textura
-            tx_init.loadFromFile("resources/dificultate.png");
+            if (not tx_init.loadFromFile("resources/dificultate.png")) {
+                err_load eload;
+                eload.set_cod(2);
+                throw eload;
+            }
             //selecteaza dreptunghiul cu imaginea de fundal in sprite-ul fundal
             sp_init.setTexture(tx_init);
             sp_init.setTextureRect(sf::IntRect(0, 0, 1264, 860));
@@ -352,13 +361,22 @@ class qwk {
         explicit qwk(int diff) {
             //pozitia de citire din imaginea de baza pentru fiecare carte
             std::ifstream sourceFileStream{ "resources/coord_carti.txt" };
+            if (sourceFileStream.fail()) {
+                err_load eload;
+                eload.set_cod(1);
+                throw eload;
+            }
             for(int i=0; i<13; i++) {
                 for(int j=0; j<4; j++) {
                     sourceFileStream >> poz_carte[i][j][0];
                     sourceFileStream >> poz_carte[i][j][1];
                 }
             }
-            fnt.loadFromFile("resources/arial.ttf");
+            if (not fnt.loadFromFile("resources/arial.ttf")) {
+                err_load eload;
+                eload.set_cod(3);
+                throw eload;
+            }
             h = "!olleH";
             std::reverse(h.begin(), h.end());
             mesaj.setString(h);
@@ -367,7 +385,11 @@ class qwk {
             mesaj.setFillColor(sf::Color::Yellow);
             window.create(sf::VideoMode(1300, 920), "Free Cell");
             //incarca imaginea de fundal in textura
-            tx_fundal.loadFromFile("resources/baza.png");
+            if (not tx_fundal.loadFromFile("resources/baza.png")) {
+                err_load eload;
+                eload.set_cod(2);
+                throw eload;
+            }
             //selecteaza dreptunghiul cu imaginea de fundal in sprite-ul fundal
             sp_fundal.setTexture(tx_fundal);
             sp_fundal.setTextureRect(sf::IntRect(0, 0, 632, 453));
