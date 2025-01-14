@@ -1,5 +1,6 @@
 #include <iostream>
 #include <exception>
+#include <ctime>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -8,9 +9,11 @@
 #include <sstream>
 #include <fstream>
 
+#include "Scor.h"
 #include "Exceptii.h"
 #include "Carte.h"
 #include "Selectie.h"
+#include "Dificultate.h"
 #include "Tabla.h"
 
 int main()
