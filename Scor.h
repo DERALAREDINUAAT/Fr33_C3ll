@@ -8,6 +8,7 @@ class scor {
     public:
         scor() {
             scorul = 0;
+            scor_mutari_baza = 0;
             scor_mutari = 100;
             scor_timp = 200;
             scor_amestecare = 1;
