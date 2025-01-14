@@ -40,8 +40,7 @@ class scor_dupa_timp : public scor_dupa_grad_amestecare_pachet {
         time_t moment_reper;
         int durata;
     public:
-        scor_dupa_timp() {
-            moment_reper = 0;
+        scor_dupa_timp(): moment_reper(time(NULL)) {
             durata = 0;
         }
         void set_moment_reper() {
