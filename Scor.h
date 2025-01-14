@@ -41,7 +41,7 @@ class scor_dupa_timp : public scor_dupa_grad_amestecare_pachet {
         int durata;
     public:
         scor_dupa_timp() {
-            moment_reper = time(NULL);
+            moment_reper = 0;
             durata = 0;
         }
         void set_moment_reper() {
@@ -62,7 +62,6 @@ class scor_dupa_mutari : public scor_dupa_timp {
     public:
         scor_dupa_mutari() {
             numar_mutari = 0;
-            scor_mutari = 100;
         }
         void incr_mutari() {
             numar_mutari += 1;
