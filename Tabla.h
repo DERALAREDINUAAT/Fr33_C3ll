@@ -146,6 +146,8 @@ class tabla {
                 if(free_cell_k[i] == 0 && clc_x >= free_cell_poz[i][0] && clc_x <= free_cell_poz[i][0] + 69.f * 2.f && clc_y >= free_cell_poz[i][1] && clc_y <= free_cell_poz[i][1] + 94.f * 1.9f) {
                     //cartea este din una dintre coloane
                     free_cell_k[i] = 1;
+                    skm.incr_mutari();
+                    skm.calculeaza_scor();
                     if(c == 'c') {
                         //preia cartea in free cel
                         free_cell[i] = coloana[kl][rn];
@@ -169,6 +171,10 @@ class tabla {
                 if((qs == i && ((baza_k[i] == 0 && qv == 0) || (baza_k[i] == 1 && baza[i].da_valoare() + 1 == qv))) && clc_x >= baza_poz[i][0] && clc_x <= baza_poz[i][0] + 69.f * 2.f && clc_y >= baza_poz[i][1] && clc_y <= baza_poz[i][1] + 94.f * 1.9f) {
                     //cartea este din una dintre coloane
                     baza_k[i] = 1;
+                    //incrementeaza scorul dupa mutare
+                    skm.incr_mutari_baza();
+                    skm.incr_mutari();
+                    skm.calculeaza_scor();
                     if(c == 'c') {
                         //preia cartea in baza
                         baza[i] = coloana[kl][rn];
@@ -178,7 +184,7 @@ class tabla {
                     }
                     //cartea este dintr-o free cell
                     if(c == 'f') {
-                        //preia cartea in baz
+                        //preia cartea in baza
                         baza[i] = free_cell[kl];
                         //elimina cartea din free cell
                         free_cell[kl] = qrt;
@@ -196,6 +202,8 @@ class tabla {
                         //   --sau aceasta coloana are mai putin de 15 carti si cartea selectata are valoarea +1 fata de ultima carte din coloana si simbol(culoare) schimbat (par peste impar ori impar peste par)
                         //preia cartea in baza
                         col_k[nkl] += 1;
+                        skm.incr_mutari();
+                        skm.calculeaza_scor();
                         if(c == 'c') {
                             coloana[nkl][col_k[nkl]-1] = coloana[kl][rn];
                             //elimina cartea din coloana
@@ -297,6 +305,9 @@ class stabileste_dificultatea {
                 terminat = 1;
                 difficulty *dff = point_dif->Clone();
                 std::cout << "Dificultatea este: " << dff->da_dificultate();
+                //dificultatea afecteaza modul de calcul al scorului
+                if(dff->da_dificultate() == 0) skm.set_grad_amestecare(4);
+                else skm.set_grad_amestecare(dff->da_dificultate());
             }
         }
         int da_dificultate() {
@@ -339,12 +350,16 @@ class qwk {
         std::string h;
         sf::Font fnt;
         sf::Text mesaj;
+        sf::Text reusit;
         sf::RenderWindow window;//fereastra de lucru
         sf::Texture tx_fundal;//textura cu imaginea de fundal
+        sf::Texture tx_victorie;
         sf::Sprite sp_fundal;//spriteul in care se incarca imaginea de fundal
         sf::Sprite sp_riga1;
         sf::Sprite sp_riga2;
+        sf::Sprite sp_victorie;
         sf::RectangleShape sp_sel;//selectie
+        int nVictorie;
         selectie sel;
         tabla tb;
         pachet p;
@@ -392,6 +407,11 @@ class qwk {
                 eload.set_cod(2);
                 throw eload;
             }
+            if (not tx_victorie.loadFromFile("resources/victorie.png")) {
+                err_load eload;
+                eload.set_cod(2);
+                throw eload;
+            }
             //selecteaza dreptunghiul cu imaginea de fundal in sprite-ul fundal
             sp_fundal.setTexture(tx_fundal);
             sp_fundal.setTextureRect(sf::IntRect(0, 0, 632, 453));
@@ -407,6 +427,10 @@ class qwk {
             sp_riga2.setTextureRect(sf::IntRect(355, 453, 36, 36));
             sp_riga2.setPosition(18.f + 596.f,30.f + 74.f);
             sp_riga2.setScale(2.f,1.9f);
+            //victorie
+            sp_victorie.setTexture(tx_victorie);
+            sp_victorie.setPosition(500.f,400.f);
+            nVictorie = 0;
             //selectie
             sp_sel.setSize(sf::Vector2f(71, 96));
             sp_sel.setPosition(18.f + 0.f,30.f + 0.f);
@@ -467,11 +491,24 @@ class qwk {
                 sp_sel.setPosition(float(sel.da_x()), float(sel.da_y()));
                 window.draw(sp_sel);
             }
+            if (skm.da_scorul() > 0) {
+                std::stringstream strmes;
+                //calculeaza scorul dupa timp
+                skm.incremenreaza_timp();
+                skm.calculeaza_scor();
+                strmes << "Scor: " << skm.da_scorul();
+                mesaj.setString(strmes.str());
+            }
             window.draw(mesaj);
+            if (nVictorie == 1) {
+                window.draw(sp_victorie);
+            }
             window.display();
         }
 
         void joaca(char p_mod_lucru, int p_dr) {
+            //incepe cronometrarea jocului
+            skm.set_moment_reper();
             while (window.isOpen()) {
                 sf::Event event;
                 while (window.pollEvent(event))
@@ -519,8 +556,12 @@ class qwk {
                                 //asteapta eliberarea mausului
                             }
                             if (sel.da_terminat() == 1) {
+                                nVictorie = 1;
+                                afiseaza_tabla(p_dr);
                                 //win_sound.setBuffer(buffer);
                                 //win_sound.play();
+                                system("pause"); 
+                                return;
                             }
                         break;
                     }
